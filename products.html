@@ -16,7 +16,8 @@
         .logo { font-size: 20px; font-weight: bold; }
         nav { display: flex; align-items: center; }
         nav a { color: white; text-decoration: none; margin-left: 20px; cursor: pointer; font-size: 14px; }
-        .cart-btn-header { background: #e67e22; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; }
+        .cart-btn-header { background: #e67e22; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
+        .cart-btn-header:active { transform: scale(0.9); }
         #cart-count { background: #c0392b; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 8px; }
         
         .main-layout { display: flex; flex-direction: row; padding: 30px 50px; gap: 30px; max-width: 1600px; margin: 0 auto; }
@@ -26,7 +27,6 @@
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
         .sidebar ul li a { color: #34495e; text-decoration: underline; font-size: 15px; }
         
-        /* Кнопки відгуків */
         .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #34495e; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; }
         .btn-review-sidebar:hover { background: #2c3e50; transform: scale(1.02); }
 
@@ -54,8 +54,14 @@
         
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
+        
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; gap: 10px; }
+        .qty-controls { display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 4px 8px; border-radius: 6px; }
+        .qty-btn { background: #34495e; color: white; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .remove-item { color: #c0392b; cursor: pointer; font-size: 18px; margin-left: 10px; }
+        .clear-cart-btn { background: none; border: 1px solid #c0392b; color: #c0392b; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-top: 10px; font-weight: bold; }
+
         .cart-input { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; text-align: left; }
         .star-red { color: red; font-weight: bold; }
 
         @media (max-width: 768px) { .main-layout { flex-direction: column; padding: 15px; } .sidebar { width: 100%; position: static; } .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
@@ -83,7 +89,6 @@
             <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
             <li><a href="#snasti">📦 Рибальські снасті</a></li>
         </ul>
-        
         <h3 style="margin-top:25px;">Відгуки:</h3>
         <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
         <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
@@ -94,22 +99,16 @@
         
         <div id="w80" class="category-header">ТЕХНОПЛАНКТОН SK 80г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container80"></div>
-        
         <div id="w110" class="category-header">ТЕХНОПЛАНКТОН SK 110г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container110"></div>
-        
         <div id="w140" class="category-header">ТЕХНОПЛАНКТОН SK 140г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container140"></div>
-        
         <div id="makuha" class="category-header">Макуха SK 80г — від Олега Карпова</div>
         <div class="products-grid" id="containerMakuha"></div>
-        
         <div id="kasha" class="category-header">Каші, прикормки, приманки</div>
         <div class="products-grid" id="containerKasha"></div>
-        
         <div id="poplavki" class="category-header">Поплавці SK (XXXL) — від Олега Карпова</div>
         <div class="products-grid" id="containerPoplavki"></div>
-        
         <div id="snasti" class="category-header">Рибальські снасті</div>
         <div class="products-grid" id="containerSnasti"></div>
     </main>
@@ -118,20 +117,16 @@
 <div id="cartModal" class="modal-bg">
     <div class="modal-content">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
-        <h2>🛒 Ваше замовлення</h2>
+        <h2>🛒 Ваш кошик</h2>
         <div id="cart-items-list"></div>
+        <div id="cart-controls" style="margin-top: 10px;"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
         <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
-        
         <div style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <label style="color:#333; font-size:12px; font-weight:bold;"><span class="star-red">*</span> Ваше ім'я:</label>
+            <label><span class="star-red">*</span> Ваше ім'я:</label>
             <input type="text" id="client-name" class="cart-input" placeholder="Введіть ім'я">
-            
-            <label style="color:#333; font-size:12px; font-weight:bold;"><span class="star-red">*</span> Телефон:</label>
-            <input type="tel" id="client-phone" class="cart-input" value="+380" 
-                   onkeydown="if(['Backspace','Delete'].includes(event.key) && this.selectionStart <= 4) event.preventDefault();"
-                   oninput="if(!this.value.startsWith('+380')) this.value = '+380'; this.value = '+380' + this.value.substring(4).replace(/[^\d]/g, '');" maxlength="13">
-            
-            <label style="color:#333; font-size:12px; font-weight:bold;">Email (необов'язково):</label>
+            <label><span class="star-red">*</span> Телефон:</label>
+            <input type="tel" id="client-phone" class="cart-input" value="+380" maxlength="13">
+            <label>Email (необов'язково):</label>
             <input type="email" id="client-email" class="cart-input" placeholder="example@gmail.com">
         </div>
         <button class="btn-submit-order" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
@@ -150,23 +145,60 @@
         {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'}
     ];
 
-    function updateCartUI() { document.getElementById('cart-count').innerText = cart.reduce((acc, i) => acc + i.qty, 0); localStorage.setItem('fishingCart', JSON.stringify(cart)); }
-    function addToCart(name, price) { const item = cart.find(i => i.name === name); item ? item.qty++ : cart.push({ name, price, qty: 1 }); updateCartUI(); alert("Додано!"); }
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function updateCartUI() { 
+        document.getElementById('cart-count').innerText = cart.reduce((acc, i) => acc + i.qty, 0); 
+        localStorage.setItem('fishingCart', JSON.stringify(cart)); 
+    }
 
-    // Закриття кліком поза межами вікна
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-bg')) {
-            event.target.style.display = "none";
+    function addToCart(name, price) { 
+        const item = cart.find(i => i.name === name); 
+        item ? item.qty++ : cart.push({ name, price, qty: 1 }); 
+        updateCartUI(); 
+    }
+
+    function changeQty(name, delta) {
+        const item = cart.find(i => i.name === name);
+        if (item) {
+            item.qty += delta;
+            if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+            updateCartUI();
+            openCart();
         }
     }
 
+    function removeFromCart(name) {
+        cart = cart.filter(item => item.name !== name);
+        updateCartUI();
+        openCart();
+    }
+
+    function clearCart() { if (confirm("Очистити кошик?")) { cart = []; updateCartUI(); openCart(); } }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    window.onclick = (e) => { if (e.target.classList.contains('modal-bg')) e.target.style.display = "none"; }
+
     function openCart() {
         const list = document.getElementById('cart-items-list');
+        const ctrl = document.getElementById('cart-controls');
         let total = 0;
-        list.innerHTML = cart.length ? '' : '<p>Кошик порожній</p>';
-        cart.forEach(item => { total += item.price * item.qty; list.innerHTML += `<div class="cart-item"><span>${item.name} x${item.qty}</span><b>${item.price * item.qty} грн</b></div>`; });
+        if (cart.length === 0) { list.innerHTML = '<p>Кошик порожній</p>'; ctrl.style.display = 'none'; }
+        else {
+            list.innerHTML = ''; ctrl.style.display = 'block';
+            cart.forEach(item => { 
+                total += item.price * item.qty; 
+                list.innerHTML += `<div class="cart-item">
+                    <div style="flex:1;"><b>${item.name}</b><br>${item.price} грн/шт</div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', 1)">+</button>
+                    </div>
+                    <b>${item.price * item.qty} грн</b>
+                    <span class="remove-item" onclick="removeFromCart('${item.name.replace(/'/g, "\\'")}')">✖</span>
+                </div>`; 
+            });
+        }
         document.getElementById('cart-total-sum').innerText = total;
         openModal('cartModal');
     }
@@ -175,15 +207,14 @@
         const name = document.getElementById('client-name').value;
         const phone = document.getElementById('client-phone').value;
         const total = document.getElementById('cart-total-sum').innerText;
-        if (!name || phone.length < 13) { alert("Будь ласка, введіть ім'я та повний номер телефону!"); return; }
-        if (total < 400) { alert("Минимальный заказ — 400 грн. Собирайте корзину из разных позиций!"); return; }
+        if (!name || phone.length < 13) { alert("Введіть ім'я та повний номер телефону!"); return; }
+        if (total < 400) { alert("Мінімальне замовлення — 400 грн!"); return; }
 
         let details = "";
         cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
-
         emailjs.send("service_2xxpqzw", "template_dkcry58", {
             from_name: name, client_phone: phone, order_details: details, total_sum: total, client_email: document.getElementById('client-email').value
-        }).then(() => { alert("Дякуємо! Замовлення надіслано."); cart = []; updateCartUI(); closeModal('cartModal'); });
+        }).then(() => { alert("Замовлення надіслано!"); cart = []; updateCartUI(); closeModal('cartModal'); });
     }
 
     function createCard(img, name, p1, p2, opt, desc) {
@@ -227,15 +258,15 @@
         kCont.innerHTML += createCard('Images/kasha/gluten.jpg', 'Соєвий глютен (клейковина суха)(у розвіс від 1кг)', 200, null, 0, `Соєвий глютен (клейковина суха)\nВикористовується для виробництва плавальних попапів і бойлів.\nціна (на розвіс від 1 кг): 200 грн/кг\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
 
         const pCont = document.getElementById('containerPoplavki');
-        const poplavDesc = `Поплавець на товстолоба (Розмір XXXL). Найкраща якість в Україні. Флюоресцентний. Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опору в воді він краще пробиває губу товстолоба та запобігає сходу риби.\nВ 1й упаковці 5шт.\nМатеріал: Поліпропіленоуретан високої щільності.\nВиробник: Олег Карпов( виробник технопланктона «Октябрьский»)\nм. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}`;
-        pCont.innerHTML += createCard('Images/poplavki/poplav.jpg', 'Поплавець на товстолоба SK XXXL(5шт/уп.)', 400, 200, 10, poplavDesc);
-        pCont.innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL(зі світлячком)(5шт/уп.)', 600, 400, 10, poplavDesc);
+        const pDesc = `Поплавець на товстолоба (Розмір XXXL). Найкраща якість в Україні. Флюоресцентний. Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опору в воді він краще пробиває губу товстолоба та запобігає сходу риби.\nВ 1й упаковці 5шт.\nМатеріал: Поліпропіленоуретан високої щільності.\nВиробник: Олег Карпов\nм. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}`;
+        pCont.innerHTML += createCard('Images/poplavki/poplav.jpg', 'Поплавець на товстолоба SK XXXL(5шт/уп.)', 400, 200, 10, pDesc);
+        pCont.innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL(зі світлячком)(5шт/уп.)', 600, 400, 10, pDesc);
 
         const sCont = document.getElementById('containerSnasti');
-        sCont.innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності з флуорокарбоновим покриттям(1000м)', 500, null, 0, `Волосінь рибальська високої міцності з флуорокарбоновим покриттям. Не має пам'яті. Довжина: 1000м. Ø: від 0,30 мм до 0,50 мм. Матеріал із Японії.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
-        sCont.innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (флуоресцентна) (Ø=1.5мм)', 500, null, 0, `Волосінь рибальська флуоресцентна, дуже міцна (Світиться вночі від променя ліхтаря та сяйва місяця). Ø=1.5мм. Довжина в бобіні: 200м. Цена - 500грн\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
-        sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм) (розтягується до 60м)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
-
+        sCont.innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності з флуорокарбоновим покриттям(1000м)', 500, null, 0, `Волосінь рибальська високої міцності з флуорокарбоновим покриттям. Не має пам'яті. Довжина: 1000м. Ø: від 0,30 мм до 0,50 мм. Матеріал із Японії.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
+        sCont.innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (флуоресцентна) (Ø=1.5мм)', 500, null, 0, `Волосінь рибальська флуоресцентна, дуже міцна. Ø=1.5мм. Довжина в бобіні: 200м. Цена - 500грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
+        sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм) (розтягується до 60м)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
+        
         updateCartUI();
     };
 </script>
