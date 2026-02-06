@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Відгуки - Технопланктон SK</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: Arial, sans-serif;
+            background: url('Images/5.jpg') no-repeat center center fixed;
+            background-size: cover; color: #333; min-height: 100vh;
+        }
+        .container {
+            max-width: 800px; margin: 40px auto; padding: 20px;
+            background: rgba(255, 255, 255, 0.93); backdrop-filter: blur(10px);
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1, h2 { text-align: center; color: #2c3e50; margin-top: 10px; }
+        
+        .nav-links { text-align: center; margin-bottom: 25px; }
+        .back-link { 
+            display: block; 
+            margin: 8px 0; 
+            color: #34495e; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #27ae60; text-decoration: underline; }
+
+        /* Форма відгуку */
+        .review-form {
+            display: flex; flex-direction: column; gap: 15px;
+            padding-bottom: 30px; border-bottom: 2px solid #ddd; margin-bottom: 30px;
+        }
+        input, textarea {
+            padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px;
+            outline: none; transition: border 0.3s;
+        }
+        input:focus, textarea:focus { border-color: #27ae60; }
+        textarea { resize: vertical; min-height: 120px; }
+        
+        .btn-submit {
+            background: #27ae60; color: white; border: none; padding: 15px;
+            border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px;
+            transition: background 0.3s;
+        }
+        .btn-submit:hover { background: #219150; }
+        .btn-submit:disabled { background: #95a5a6; cursor: not-allowed; }
+
+        /* Список відгуків */
+        .reviews-list { display: flex; flex-direction: column; gap: 20px; }
+        .review-item {
+            background: white; padding: 20px; border-radius: 15px;
+            border-left: 6px solid #27ae60; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: #7f8c8d; }
+        .review-name { font-weight: bold; color: #2c3e50; font-size: 17px; }
+        .review-date { font-style: italic; }
+        .review-text { line-height: 1.6; white-space: pre-wrap; color: #444; font-size: 16px; }
+
+        .loading-text { text-align: center; font-weight: bold; color: #7f8c8d; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-links">
+        <a href="index.html" class="back-link">⬅ Повернутися на головну</a>
+        <a href="products.html" class="back-link">⬅ Повернутися до усіх товарів</a>
+    </div>
+
+    <h1>Залишити відгук</h1>
+    
+    <form class="review-form" id="reviewForm">
+        <input type="text" id="userName" placeholder="Ваше ім'я" required>
+        <textarea id="userReview" placeholder="Ваш відгук про наш Технопланктон..." required></textarea>
+        <button type="submit" class="btn-submit" id="submitBtn">Опублікувати відгук</button>
+    </form>
+
+    <h2 id="all-reviews">Всі відгуки</h2>
+    <div id="reviewsContainer" class="reviews-list">
+        <div class="loading-text">Завантаження відгуків...</div>
+    </div>
+</div>
+
+<script>
+    // Твій конфіг Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5LQX3s_fDgd0tG56YCSiqRN4sumdtEss",
+        authDomain: "plankton-sk.firebaseapp.com",
+        databaseURL: "https://plankton-sk-default-rtdb.firebaseio.com",
+        projectId: "plankton-sk",
+        storageBucket: "plankton-sk.firebasestorage.app",
+        messagingSenderId: "87585452680",
+        appId: "1:87585452680:web:6442c16c78b880d738a53d",
+        measurementId: "G-ZMS86KLZ23"
+    };
+
+    // Ініціалізація
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const form = document.getElementById('reviewForm');
+    const container = document.getElementById('reviewsContainer');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Функція відображення відгуків (працює в реальному часі)
+    function listenForReviews() {
+        database.ref('reviews').on('value', (snapshot) => {
+            const data = snapshot.val();
+            container.innerHTML = '';
+            
+            if (!data) {
+                container.innerHTML = '<p style="text-align:center; color: #7f8c8d;">Відгуків поки немає. Будьте першим!</p>';
+                return;
+            }
+
+            // Перетворюємо в масив та сортуємо (нові зверху)
+            const reviewsArray = Object.values(data).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            reviewsArray.forEach(r => {
+                const dateString = new Date(r.date).toLocaleString('uk-UA', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                container.innerHTML += `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-name">${r.name}</span>
+                            <span class="review-date">${dateString}</span>
+                        </div>
+                        <div class="review-text">${r.text}</div>
+                    </div>
+                `;
+            });
+        });
+    }
+
+    // Відправка нового відгуку
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Відправка...";
+
+        const nameInput = document.getElementById('userName');
+        const textInput = document.getElementById('userReview');
+
+        const newReview = {
+            name: nameInput.value.trim(),
+            text: textInput.value.trim(),
+            date: new Date().toISOString()
+        };
+
+        // Зберігаємо в хмару
+        database.ref('reviews').push(newReview)
+            .then(() => {
+                form.reset();
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Опублікувати відгук";
+            })
+            .catch(error => {
+                console.error("Помилка:", error);
+                alert("Вибачте, сталася помилка при відправці. Перевірте Rules у консолі Firebase.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Спробувати ще раз";
+            });
+    });
+
+    // Запуск при завантаженні
+    listenForReviews();
+</script>
+
+</body>
+</html>
