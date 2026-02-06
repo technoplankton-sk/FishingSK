@@ -50,7 +50,15 @@
         .sidebar h3 { font-size: 18px; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 10px; }
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
-        .sidebar ul li a { color: white; text-decoration: none; display: flex; align-items: center; font-size: 15px; }
+        .sidebar ul li a { 
+            color: white; 
+            text-decoration: underline; 
+            display: flex; 
+            align-items: center; 
+            font-size: 15px; 
+            transition: 0.2s;
+        }
+        .sidebar ul li a:hover { color: #27ae60; text-decoration: none; }
 
         .btn-back-home {
             display: block;
@@ -104,6 +112,8 @@
             text-align: center;
             color: #333;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
         }
 
         .img-container {
@@ -112,7 +122,7 @@
             overflow: hidden;
             border-radius: 12px;
             margin-bottom: 12px;
-            cursor: zoom-in; /* Показуємо, що фото можна збільшити */
+            cursor: zoom-in;
         }
         .product-card img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -120,66 +130,26 @@
         .price-tag { color: #27ae60; font-size: 20px; font-weight: 800; margin: 5px 0; }
         .price-opt { color: #e67e22; font-size: 11px; margin-bottom: 12px; font-weight: bold; }
 
-        .btn-buy {
-            background: #27ae60; 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            width: 100%; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            cursor: pointer;
-            font-size: 15px;
+        .card-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: auto;
         }
 
-        #scrollTop {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: none;
-            z-index: 1000;
+        .btn-buy, .btn-desc {
+            color: white; border: none; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.3s;
         }
+        .btn-buy { background: #27ae60; }
+        .btn-desc { background: #34495e; }
 
-        /* МОДАЛКИ (Контакти та Фото) */
-        .modal-bg { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.85); 
-            z-index: 2000; 
-            justify-content: center; 
-            align-items: center; 
-        }
-        .modal-content { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 20px; 
-            width: 85%; 
-            max-width: 340px; 
-            text-align: center; 
-            color: #333; 
-            position: relative; 
-        }
+        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 450px; text-align: center; color: #333; position: relative; }
         
-        /* СТИЛЬ ДЛЯ ВЕЛИКОГО ФОТО */
-        #fullImage { 
-            max-width: 90%; 
-            max-height: 90vh; 
-            border-radius: 10px; 
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
-            cursor: pointer;
-        }
+        #descText { white-space: pre-line; text-align: left; padding: 10px; font-size: 15px; color: #444; line-height: 1.4; }
+
+        #fullImage { max-width: 90%; max-height: 90vh; border-radius: 10px; cursor: pointer; }
+        #scrollTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: #27ae60; color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; z-index: 1000; }
 
         @media (max-width: 768px) {
             header { padding: 10px 15px; }
@@ -187,6 +157,7 @@
             .sidebar { width: 100%; min-width: 100%; box-sizing: border-box; position: static; }
             .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .card-buttons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -203,11 +174,15 @@
 
 <div class="main-layout">
     <aside class="sidebar">
-        <h3>Вага товару:</h3>
+        <h3>Навігація:</h3>
         <ul>
             <li><a href="#w80">📦 80г(флуоро)</a></li>
             <li><a href="#w110">📦 110г(флуоро)</a></li>
             <li><a href="#w140">📦 140г(флуоро)</a></li>
+            <li><a href="#makuha">📦 Макуха SK 80г</a></li>
+            <li><a href="#kasha">📦 Каші, прикормки</a></li>
+            <li><a href="#poplavki">📦 Поплавці SK</a></li>
+            <li><a href="#snasti">📦 Рибальські снасті</a></li>
         </ul>
         <a href="index.html" class="btn-back-home">⬅ На головну</a>
     </aside>
@@ -215,23 +190,161 @@
     <main class="content-section">
         <div class="main-title">Наша продукція</div>
 
-        <div id="w80" class="category-header">ТЕХНОПЛАНКТОН SK 80г(флуоро) — 120/60 ГРН (ОПТ ВІД 50УП.)</div>
+        <div id="w80" class="category-header">ТЕХНОПЛАНКТОН SK 80г(флуоро) від Олега Карпова — 120/60 ГРН (ОПТ ВІД 50УП.)</div>
         <div class="products-grid" id="container80"></div>
 
-        <div id="w110" class="category-header">ТЕХНОПЛАНКТОН SK 110г(флуоро) — 160/80 ГРН (ОПТ ВІД 37УП.)</div>
+        <div id="w110" class="category-header">ТЕХНОПЛАНКТОН SK 110г(флуоро) від Олега Карпова — 160/80 ГРН (ОПТ ВІД 37УП.)</div>
         <div class="products-grid" id="container110"></div>
 
-        <div id="w140" class="category-header">ТЕХНОПЛАНКТОН SK 140г(флуоро) — 260/130 ГРН (ОПТ ВІД 23УП.)</div>
+        <div id="w140" class="category-header">ТЕХНОПЛАНКТОН SK 140г(флуоро) від Олега Карпова — 260/130 ГРН (ОПТ ВІД 23УП.)</div>
         <div class="products-grid" id="container140"></div>
+
+        <div id="makuha" class="category-header">Макуха SK 80г від Олега Карпова — 120/60 ГРН</div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/makuha/orig5.jpg')">
+                    <img src="Images/makuha/orig5.jpg" alt="Макуха оригінал" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Макуха (смажена) оригінал 80г від Олега Карпова</div>
+                <div class="price-tag">120 грн</div>
+                <div class="price-opt">60 грн (від 50 уп.)</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Макуха (смажена) оригінал', `Макуха смажена.
+смак: оригінал
+розмір: 4x4
+вага: 80 грамів
+Виробник: Україна, м. Миколаїв
+тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов`)">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/makuha/6p.jpg')">
+                    <img src="Images/makuha/6p.jpg" alt="Макуха пилюча" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Макуха SK (всі смаки)(пилюча,флуоро) 80г від Олега Карпова</div>
+                <div class="price-tag">120 грн</div>
+                <div class="price-opt">60 грн (від 50 уп.)</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Макуха SK (всі смаки)', `Макуха пилюча(ФЛУОРО) від Олега Карпова
+смаки : оригінал, малина, пряжене молоко, кисла груша, дафнія, горох, ананас, мед, полуниця, кукурудза, часник, пробімат та інші.
+розмір: 4x4
+вага: 80 грамів
+Виробник: Україна, м. Миколаїв
+тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов`)">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="kasha" class="category-header">Каші, прикормки, приманки</div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/kasha/kasha.jpg')">
+                    <img src="Images/kasha/kasha.jpg" alt="Каша" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Каша, прикормка, приманка(800г) Catch a fish</div>
+                <div class="price-tag">70 грн</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Каша Catch a fish', 'Вага 800г.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/kasha/gluten.jpg')">
+                    <img src="Images/kasha/gluten.jpg" alt="Соєвий глютен" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Соєвий глютен (клейковина суха)(у розвіс від 1кг)</div>
+                <div class="price-tag">200 грн/кг</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Соєвий глютен', 'Клейковина суха.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="poplavki" class="category-header">Поплавці SK (XXXL) від Олега Карпова</div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/poplavki/poplav.jpg')">
+                    <img src="Images/poplavki/poplav.jpg" alt="Поплавець SK XXXL" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Поплавець на товстолоба SK XXXL(5шт/уп.)</div>
+                <div class="price-tag">400 грн/уп.</div>
+                <div class="price-opt">200 грн/уп. (від 10 уп.)</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Поплавець SK XXXL', 'Упаковка 5 шт. Висока видимість.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/poplavki/poplavSV.jpg')">
+                    <img src="Images/poplavki/poplavSV.jpg" alt="Поплавець SK XXXL зі світлячком" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Поплавець на товстолоба SK XXXL(зі світлячком)(5шт/уп.)</div>
+                <div class="price-tag">600 грн/уп.</div>
+                <div class="price-opt">400 грн/уп. (від 10 уп.)</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Поплавець SK XXXL (світлячок)', 'Комплектується світлячком для нічної риболовлі.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="snasti" class="category-header">Рибальські снасті</div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/snasti/volos1.jpg')">
+                    <img src="Images/snasti/volos1.jpg" alt="Волосінь" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Волосінь рибальська високої міцності з флуорокарбоновим покриттям(1000м)</div>
+                <div class="price-tag">500 грн</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Волосінь 1000м', 'Флуорокарбонове покриття.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/snasti/volos2.jpg')">
+                    <img src="Images/snasti/volos2.jpg" alt="Волосінь" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Волосінь рибальська 200м (флуоресцентна) (Ø=1.5мм)</div>
+                <div class="price-tag">500 грн</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Волосінь 200м', 'Флуоресцентна.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-container" onclick="viewImage('Images/snasti/rezinka.jpg')">
+                    <img src="Images/snasti/rezinka.jpg" alt="Резинка" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
+                </div>
+                <div class="item-name">Резинка рибальська 20м (Ø 3мм) (розтягується до 60м)</div>
+                <div class="price-tag">70 грн</div>
+                <div class="card-buttons">
+                    <button class="btn-desc" onclick="openDesc('Резинка', 'Довжина 20м.')">Опис</button>
+                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                </div>
+            </div>
+        </div>
     </main>
+</div>
+
+<div id="descModal" class="modal-bg">
+    <div class="modal-content">
+        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('descModal')">&times;</span>
+        <h2 id="descTitle"></h2>
+        <div id="descText"></div>
+        <button class="btn-buy" onclick="closeModal('descModal')">Закрити</button>
+    </div>
 </div>
 
 <div id="contactModal" class="modal-bg">
     <div class="modal-content">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('contactModal')">&times;</span>
-        <h2 style="margin-top: 0; font-size: 20px;">Наші контакти</h2>
-        <p><b>Київстар:</b><br>+38 (097) 334-86-67</p>
-        <p><b>Lifecell:</b><br>+38 (093) 218-12-63</p>
+        <h2>Контакти</h2>
+        <p>+38 (097) 334-86-67<br>+38 (093) 218-12-63</p>
+        <p>olegkarpov078@gmail.com</p>
         <button class="btn-buy" onclick="closeModal('contactModal')">Закрити</button>
     </div>
 </div>
@@ -257,15 +370,45 @@
         const container = document.getElementById(containerId);
         flavors.forEach(f => {
             const imgPath = `Images/${folder}/${f.id}.jpg`;
+            const fullName = `Технопланктон (${f.name}) від Олега Карпова SK ${weightSuffix}`;
+            
+            let description = 'Якісний технопланктон.';
+            
+            if (weightSuffix === '80г(флуоро)') {
+                description = `Завдяки оригінальним ароматам утримує рибу в зоні ловлі. При розчині дає хмару пилу, який так любить товстолоб. Пил стоїть у товщі води і не падає на дно.
+Флуоресцентний
+Вологостійкість: до 3 годин
+Вага: 80 грам
+Виробник: Україна, м. Миколаїв
+тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов`;
+            } else if (weightSuffix === '110г(флуоро)') {
+                description = `Завдяки оригінальним ароматам утримує рибу в зоні ловлі. При розчині дає хмару пилу, який так любить товстолоб. Пил стоїть у товщі води і не падає на дно.
+Флуоресцентний
+Вологостійкість: до 4 годин
+Вага: 110 грам
+Виробник: Україна, м. Миколаїв
+тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов`;
+            } else if (weightSuffix === '140г(флуоро)') {
+                description = `Завдяки оригінальним ароматам утримує рибу в зоні ловлі. При розчині дає хмару пилу, який так любить товстолоб. Пил стоїть у товщі води і не падає на дно.
+Флуоресцентний
+Вологостійкість: до 5 годин
+Вага: 140 грам
+Виробник: Україна, м. Миколаїв
+тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов`;
+            }
+
             container.innerHTML += `
                 <div class="product-card">
                     <div class="img-container" onclick="viewImage('${imgPath}')">
-                        <img src="${imgPath}" alt="${f.name}" onerror="this.src='Images/no-photo.jpg'">
+                        <img src="${imgPath}" alt="${f.name}" loading="lazy" onerror="this.src='Images/no-photo.jpg'">
                     </div>
-                    <div class="item-name">Технопланктон (${f.name}) SK ${weightSuffix}</div>
+                    <div class="item-name">${fullName}</div>
                     <div class="price-tag">${priceMain} грн</div>
                     <div class="price-opt">${priceOpt} грн (від ${optLimit} уп.)</div>
-                    <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                    <div class="card-buttons">
+                        <button class="btn-desc" onclick="openDesc('${fullName}', \`${description}\`)">Опис</button>
+                        <button class="btn-buy" onclick="openModal('contactModal')">Купити</button>
+                    </div>
                 </div>
             `;
         });
@@ -277,21 +420,14 @@
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    
-    // Функція збільшення фото
-    function viewImage(src) {
-        document.getElementById('fullImage').src = src;
-        openModal('imageModal');
+    function viewImage(src) { document.getElementById('fullImage').src = src; openModal('imageModal'); }
+    function openDesc(title, text) { 
+        document.getElementById('descTitle').innerText = title; 
+        document.getElementById('descText').innerText = text; 
+        openModal('descModal'); 
     }
-
     const scrollBtn = document.getElementById("scrollTop");
-    window.onscroll = function() {
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            scrollBtn.style.display = "block";
-        } else {
-            scrollBtn.style.display = "none";
-        }
-    };
+    window.onscroll = function() { if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { scrollBtn.style.display = "block"; } else { scrollBtn.style.display = "none"; } };
     function goToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 </script>
 </body>
