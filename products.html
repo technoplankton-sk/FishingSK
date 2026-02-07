@@ -179,9 +179,9 @@
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
         <div class="shipping-info-banner">
             🚚 <b>Замовлення відправляються протягом 24 годин:</b><br>
-            <img src="Images/Novaposhta.png" class="shipping-icon-mini"> Нова Пошта, 
-            <img src="Images/Ukrposhta.png" class="shipping-icon-mini"> УкрПошта, 
-            <img src="Images/MeestExpress.png" class="shipping-icon-mini"> MeestExpress.
+            <img src="Images/novaposhta.png" class="shipping-icon-mini"> Нова Пошта, 
+            <img src="Images/ukrposhta.png" class="shipping-icon-mini"> УкрПошта, 
+            <img src="Images/meestexpress.png" class="shipping-icon-mini"> MeestExpress.
         </div>
         <h2>🛒 Ваш кошик</h2>
         <div id="cart-items-list"></div>
@@ -235,7 +235,7 @@
 </div>
 
 <div id="imageLightbox" class="modal-bg" onclick="handleBgClick(event)">
-    <div class="modal-content" style="background:none;">
+    <div class="modal-content" style="background:none;" onclick="event.stopPropagation()">
         <img id="lightboxImg" src="" style="max-width:100%; max-height:85vh; border:3px solid white;">
     </div>
 </div>
