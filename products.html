@@ -111,14 +111,13 @@
                 width: 100%; 
                 min-width: 0; 
                 position: sticky; 
-                top: 50px; 
+                top: 60px; /* ЗМІНЕНО з 50px на 60px для створення просвіту при скролі */
                 z-index: 1000; 
                 padding: 10px; 
                 background: rgba(255, 255, 255, 0.95); 
-                border-radius: 0 0 15px 15px;
+                border-radius: 15px; /* Змінено для кращого вигляду з відступом */
                 box-shadow: 0 4px 10px rgba(0,0,0,0.2);
                 box-sizing: border-box;
-                /* ДОДАНО: Відступ від шапки на мобільному */
                 margin-top: 10px; 
             }
             .sidebar h3, .btn-review-sidebar { display: none; } 
@@ -293,6 +292,7 @@
 </div>
 
 <script>
+    /* JavaScript логіка (залишено без змін) */
     let cart = JSON.parse(localStorage.getItem('fishingCart')) || [];
     const emailInfo = "\nE-mail : olegkarpov078@gmail.com";
     const flavors = [
