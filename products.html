@@ -106,11 +106,21 @@
             
             .main-layout { flex-direction: column; padding: 15px; gap: 15px; }
             
-            /* На мобільних сайдбар не фіксується повністю, щоб відгуки могли скролитись */
+            /* На мобільних сайдбар не фіксується повністю */
             .sidebar { width: 100%; min-width: 0; position: static; box-sizing: border-box; }
             
-            /* Тільки список категорій фіксуємо зверху при скролі */
-            .sidebar ul { position: sticky; top: 60px; z-index: 900; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 10px; }
+            /* ФІКСОВАНИЙ СПИСОК КАТЕГОРІЙ — ВИПРАВЛЕНО (додано max-height та overflow) */
+            .sidebar ul { 
+                position: sticky; 
+                top: 60px; 
+                z-index: 900; 
+                background: rgba(255, 255, 255, 0.95); 
+                padding: 10px; 
+                border-radius: 10px; 
+                max-height: 40vh; 
+                overflow-y: auto; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
 
             .main-title { font-size: 18px; padding: 8px 15px; width: 100%; box-sizing: border-box; }
             
@@ -147,7 +157,11 @@
 
 <div class="main-layout">
     <aside class="sidebar">
-        <h3>Навігація:</h3>
+        <h3 style="margin-top:0;">Відгуки:</h3>
+        <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
+        <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
+
+        <h3 style="margin-top:25px;">Навігація:</h3>
         <ul>
             <li><a href="#w80">📦 Планктон SK 80г</a></li>
             <li><a href="#w110">📦 Планктон SK 110г</a></li>
@@ -158,9 +172,6 @@
             <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
             <li><a href="#snasti">📦 Рибальські снасті</a></li>
         </ul>
-        <h3 style="margin-top:25px;">Відгуки:</h3>
-        <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
-        <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
     </aside>
 
     <main class="content-section">
