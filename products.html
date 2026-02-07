@@ -43,8 +43,24 @@
         .btn-review-sidebar:hover { background: #2c3e50; transform: scale(1.02); }
 
         .content-section { flex: 1; text-align: center; } 
-        .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: bold; font-size: 22px; margin-bottom: 25px; }
-        .category-header { background: #34495e; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 13px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
+        .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: 900; font-size: 26px; margin-bottom: 25px; text-transform: uppercase; }
+        
+        /* СТИЛЬ ЗАГОЛОВКІВ РОЗДІЛІВ (ОНОВЛЕНО) */
+        .category-header { 
+            background: #34495e; 
+            color: white; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin: 60px 0 25px 0; 
+            font-size: 20px; /* Більший шрифт на ПК */
+            font-weight: 900; /* Максимальна жирність */
+            text-transform: uppercase; 
+            width: 100%; 
+            box-sizing: border-box; 
+            scroll-margin-top: 180px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border-left: 8px solid #e67e22; /* Декоративна лінія */
+        }
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .product-card { background: rgba(200, 255, 200, 0.4); backdrop-filter: blur(5px); border-radius: 15px; padding: 15px; text-align: center; color: #1a1a1a; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; min-height: 640px; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; box-sizing: border-box; }
@@ -110,7 +126,7 @@
                 width: 100%; 
                 min-width: 0; 
                 position: sticky; 
-                top: 60px; /* Висота хешдера */
+                top: 60px; 
                 z-index: 2000; 
                 padding: 10px; 
                 background: rgba(255, 255, 255, 0.95); 
@@ -128,8 +144,17 @@
             .sidebar ul li { margin: 0; background: #f1f1f1; padding: 5px; border-radius: 5px; text-align: center; }
             .sidebar ul li a { font-size: 11px; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-            .main-title { font-size: 18px; padding: 8px 15px; width: 100%; box-sizing: border-box; }
-            .category-header { margin-top: 20px; font-size: 11px; scroll-margin-top: 160px; }
+            .main-title { font-size: 20px; padding: 10px 15px; width: 100%; }
+            
+            /* КРУПНИЙ ШРИФТ ДЛЯ ЗАГОЛОВКІВ НА МОБІЛЦІ */
+            .category-header { 
+                margin-top: 30px; 
+                font-size: 15px; 
+                padding: 12px;
+                scroll-margin-top: 160px; 
+                border-left-width: 5px;
+            }
+            
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             .product-card { min-height: auto; padding: 10px; }
             .img-container { height: 140px; }
