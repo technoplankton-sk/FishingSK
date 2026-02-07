@@ -19,10 +19,11 @@
             emailjs.init("EIuYN1VMmFHd5X94Y"); 
         })();
     </script>
+
     <style>
-        /* БАЗОВІ СТИЛІ — БЕЗ ЗМІН */
+        /* БАЗОВІ СТИЛІ */
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('Images/5.jpg') no-repeat center center fixed; background-size: cover; color: white; min-height: 100vh; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #2c3e50; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1000; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #2c3e50; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1001; }
         .logo { font-size: 20px; font-weight: bold; }
         nav { display: flex; align-items: center; gap: 20px; }
         nav a { color: white; text-decoration: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; }
@@ -32,7 +33,7 @@
         #cart-count { background: #c0392b; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 8px; }
         
         .main-layout { display: flex; flex-direction: row; padding: 30px 50px; gap: 30px; max-width: 1600px; margin: 0 auto; }
-        .sidebar { width: 250px; min-width: 250px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; position: sticky; top: 80px; }
+        .sidebar { width: 250px; min-width: 250px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; position: sticky; top: 80px; z-index: 100; }
         .sidebar h3 { color: #34495e; margin: 20px 0 10px 0; }
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
@@ -43,7 +44,7 @@
 
         .content-section { flex: 1; text-align: center; } 
         .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: bold; font-size: 22px; margin-bottom: 25px; }
-        .category-header { background: #34495e; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 13px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; }
+        .category-header { background: #34495e; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 13px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .product-card { background: rgba(200, 255, 200, 0.4); backdrop-filter: blur(5px); border-radius: 15px; padding: 15px; text-align: center; color: #1a1a1a; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; min-height: 640px; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; box-sizing: border-box; }
@@ -86,7 +87,6 @@
 
         .cart-input { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
         .star-red { color: red; font-weight: bold; }
-        
         .privacy-notice { font-size: 11px; color: #7f8c8d; margin-top: 12px; line-height: 1.4; font-style: italic; border-top: 1px solid #eee; padding-top: 10px; }
 
         .contact-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px; font-size: 18px; padding-left: 20px; flex-wrap: wrap; }
@@ -96,38 +96,40 @@
 
         #btnUp { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; background-color: #e67e22; color: white; cursor: pointer; padding: 15px; border-radius: 50%; border: none; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
 
-        /* --- АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНІВ --- */
+        /* СПЕЦІАЛЬНА МОБІЛЬНА НАВІГАЦІЯ (ДЛЯ ТЕЛЕФОНІВ) */
         @media (max-width: 768px) {
-            header { padding: 10px 15px; }
+            header { padding: 10px 15px; height: 50px; }
             .logo { font-size: 16px; }
             nav { gap: 10px; }
             nav a { font-size: 12px; }
             .cart-btn-header { padding: 6px 10px; font-size: 12px; }
             
-            .main-layout { flex-direction: column; padding: 15px; gap: 15px; }
+            .main-layout { flex-direction: column; padding: 10px; gap: 10px; }
             
-            .sidebar { width: 100%; min-width: 0; position: static; box-sizing: border-box; padding: 10px; }
-            
-            /* Навігація на телефоні: закріплюється зверху і має власний скрол */
-            .sidebar-nav-container {
-                position: sticky;
-                top: 60px; /* Відступ від хедеру */
-                z-index: 999;
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 12px;
-                padding: 10px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            .sidebar { 
+                width: 100%; 
+                min-width: 0; 
+                position: sticky; 
+                top: 50px; 
+                z-index: 1000; 
+                padding: 10px; 
+                background: rgba(255, 255, 255, 0.95); 
+                border-radius: 0 0 15px 15px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                box-sizing: border-box;
             }
-
+            .sidebar h3, .btn-review-sidebar { display: none; } /* Приховуємо на мобілці зайве */
+            
             .sidebar ul { 
-                max-height: 180px; /* Обмежуємо висоту списку, щоб було зручно гортати */
-                overflow-y: scroll; /* Примусовий скрол */
-                -webkit-overflow-scrolling: touch; 
-                display: block;
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 5px; 
             }
-            .sidebar ul li { padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            .sidebar ul li { margin: 0; background: #f1f1f1; padding: 5px; border-radius: 5px; text-align: center; }
+            .sidebar ul li a { font-size: 11px; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
             .main-title { font-size: 18px; padding: 8px 15px; width: 100%; box-sizing: border-box; }
+            .category-header { margin-top: 20px; font-size: 11px; scroll-margin-top: 140px; }
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             .product-card { min-height: auto; padding: 10px; }
             .img-container { height: 140px; }
@@ -136,8 +138,6 @@
             .price-section { min-height: 100px; }
             .btn-buy, .btn-desc, .btn-contact-item { padding: 10px; font-size: 11px; }
 
-            .contact-row { font-size: 14px; padding-left: 0; }
-            .contact-label { width: 75px; }
             #btnUp { bottom: 20px; right: 20px; padding: 10px; }
         }
 
@@ -161,41 +161,46 @@
 
 <div class="main-layout">
     <aside class="sidebar">
-        <h3 style="margin-top:0; color:#34495e;">Відгуки:</h3>
+        <h3>Навігація:</h3>
+        <ul>
+            <li><a href="#w80">📦 SK 80г</a></li>
+            <li><a href="#w110">📦 SK 110г</a></li>
+            <li><a href="#w140">📦 SK 140г</a></li>
+            <li><a href="#geizer">📦 Гейзер</a></li>
+            <li><a href="#makuha">📦 Макуха</a></li>
+            <li><a href="#kasha">📦 Прикормки</a></li>
+            <li><a href="#poplavki">📦 Поплавці</a></li>
+            <li><a href="#snasti">📦 Снасті</a></li>
+        </ul>
+        <h3 style="margin-top:25px;">Відгуки:</h3>
         <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
-        <a href="vidguk.html" class="btn-review-sidebar" style="margin-bottom:15px;">💬 Див. Усі відгуки</a>
-
-        <div class="sidebar-nav-container">
-            <h3 style="margin:0 0 10px 0; color:#34495e; font-size:16px;">Навігація:</h3>
-            <ul>
-                <li><a href="#w80">📦 Планктон SK 80г</a></li>
-                <li><a href="#w110">📦 Планктон SK 110г</a></li>
-                <li><a href="#w140">📦 Планктон SK 140г</a></li>
-                <li><a href="#geizer">📦 Гейзер SK 140г</a></li>
-                <li><a href="#makuha">📦 Макуха SK 80г</a></li>
-                <li><a href="#kasha">📦 Каші та прикормки</a></li>
-                <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
-                <li><a href="#snasti">📦 Рибальські снасті</a></li>
-            </ul>
-        </div>
+        <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
     </aside>
 
     <main class="content-section">
         <div class="main-title">Наша продукція</div>
+        
         <div id="w80" class="category-header">ТЕХНОПЛАНКТОН SK 80г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container80"></div>
+        
         <div id="w110" class="category-header">ТЕХНОПЛАНКТОН SK 110г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container110"></div>
+        
         <div id="w140" class="category-header">ТЕХНОПЛАНКТОН SK 140г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container140"></div>
+        
         <div id="geizer" class="category-header">Технопланктон(ГЕЙЗЕР) SK (всі смаки) (флуоро) від Олега Карпова</div>
         <div class="products-grid" id="containerGeizer"></div>
+
         <div id="makuha" class="category-header">Макуха SK 80г — від Олега Карпова</div>
         <div class="products-grid" id="containerMakuha"></div>
+        
         <div id="kasha" class="category-header">Каші, прикормки, приманки</div>
         <div class="products-grid" id="containerKasha"></div>
+        
         <div id="poplavki" class="category-header">Поплавці SK (XXXL) — від Олега Карпова</div>
         <div class="products-grid" id="containerPoplavki"></div>
+        
         <div id="snasti" class="category-header">Рибальські снасті</div>
         <div class="products-grid" id="containerSnasti"></div>
     </main>
@@ -432,6 +437,7 @@
     function openDesc(t, d) { document.getElementById('descTitle').innerText = t; document.getElementById('descText').innerText = d; openModal('descModal'); }
 
     window.onload = () => {
+        // Контейнери Планктону
         const configs = [
             { id: 'container80', folder: '80g', w: '80г(флуоро)', p: 120, o: 60, q: 50, t: 3 },
             { id: 'container110', folder: '110g', w: '110г(флуоро)', p: 160, o: 80, q: 37, t: 4 },
@@ -444,27 +450,32 @@
             });
         });
 
+        // Гейзер
         const gCont = document.getElementById('containerGeizer');
         const gDesc = `Завдяки оригінальним ароматам утримує рибу в зоні ловлі. При розчині дає хмару пилу, який так любить товстолоб. Пил стоїть у товщі води і не падає на дно.\nТип: Гейзер\nФлуоресцентний\nВологостійкість: до 5 годин\nВага: 140 грам\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263`;
         gCont.innerHTML += createCard('Images/geizer/geizer.jpg', 'Технопланктон(ГЕЙЗЕР) SK(всі смаки)(від Олега Карпова)140грам(флуоро)', 280, 150, 23, gDesc);
 
+        // Макуха
         const mCont = document.getElementById('containerMakuha');
         mCont.innerHTML += createCard('Images/makuha/orig5.jpg', 'Макуха (смажена) оригінал 80г від Олега Карпова', 120, 60, 50, `Макуха смажена.\nсмак: оригінал\nрозмір: 4x4\nвага: 80 грамів\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
         mCont.innerHTML += createCard('Images/makuha/6p.jpg', 'Макуха SK (всі смаки)(пилюча,флуоро) 80г від Олега Карпова', 120, 60, 50, `Макуха пилюча(ФЛУОРО) від Олега Карпова\nсмаки : всі популярні.\nрозмір: 4x4\nвага: 80 грамів\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
 
+        // Каші
         const kCont = document.getElementById('containerKasha');
         kCont.innerHTML += createCard('Images/kasha/kasha.jpg', 'Каша, прикормка, приманка(800г) Catch a fish', 70, null, 0, `Приманка має в складі високопротеїнові добавки, які сприяють приманінню риби в зоні лову. Має високу клейковину. До складу входить підсилювач смаку.\nЦіна 1уп. - 70 грн (800 грамів). Є будь-який смак (можна під замовлення).\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
         kCont.innerHTML += createCard('Images/kasha/gluten.jpg', 'Соєвий глютен (клейковина суха)(у розвіс від 1кг)', 200, null, 0, `Соєвий глютен (клейковина суха)\nВикористовується для виробництва плавальних попапів і бойлів.\nціна (на розвіс від 1 кг): 200 грн/кг\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
 
+        // Поплавці
         const pCont = document.getElementById('containerPoplavki');
         const pDesc = `Поплавець на товстолоба (Розмір XXXL). Найкраща якість в Україні. Флюоресцентний. Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опору в воді він краще пробиває губу товстолоба та запобігає сходу риби.\nВ 1й упаковці 5шт.\nМатеріал: Поліпропіленоуретан високої щільності.\nВиробник: Олег Карпов\nм. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}`;
         pCont.innerHTML += createCard('Images/poplavki/poplav.jpg', 'Поплавець на товстолоба SK XXXL(5шт/уп.)', 400, 200, 10, pDesc);
         pCont.innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL(зі світлячком)(5шт/уп.)', 600, 400, 10, pDesc);
 
+        // Снасті
         const sCont = document.getElementById('containerSnasti');
-        sCont.innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності з флуорокарбоновим покриттям(1000м)', 500, null, 0, `Волосінь рибальська високої міцності з флуорокарбоновим покриттям. Не має пам'яті. Довжина: 1000м. Ø: від 0,30 мм до 0,50 мм. Матеріал із Японії.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
+        sCont.innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності (1000м)', 500, null, 0, `Волосінь рибальська високої міцності з флуорокарбоновим покриттям. Не має пам'яті. Довжина: 1000м. Ø: від 0,30 мм до 0,50 мм.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
         sCont.innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (Ø=1.5мм)', 500, null, 0, `Волосінь рибальська флуоресцентна, дуже міцна. Ø=1.5мм. Довжина в бобіні: 200м. Цена - 500грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
-        sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм) (розтягується до 60м)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
+        sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
         
         updateCartUI();
     };
