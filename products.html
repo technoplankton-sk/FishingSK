@@ -51,7 +51,6 @@
         .product-card { background: rgba(200, 255, 200, 0.4); backdrop-filter: blur(5px); border-radius: 15px; padding: 15px; text-align: center; color: #1a1a1a; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; min-height: 640px; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; box-sizing: border-box; }
         
         .img-container { width: 100%; height: 180px; overflow: hidden; border-radius: 10px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.05); display: flex; align-items: center; justify-content: center; cursor: zoom-in; transition: 0.3s; }
-        .img-container:hover { background: rgba(0, 0, 0, 0.1); transform: scale(1.02); }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         .item-name { font-size: 14px; font-weight: bold; height: 60px; display: flex; align-items: center; justify-content: center; color: #000; }
@@ -70,7 +69,6 @@
 
         .toast-msg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #27ae60; padding: 8px 15px; border-radius: 10px; font-size: 13px; font-weight: bold; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; animation: fadeIn 0.3s; border: 1px solid #27ae60; pointer-events: none; width: max-content; }
         .toast-error { color: #e74c3c; border-color: #e74c3c; }
-        @keyframes fadeIn { from { opacity: 0; bottom: 30px; } to { opacity: 1; bottom: 50px; } }
 
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
@@ -79,6 +77,7 @@
         #lightboxImg { max-width: 100%; max-height: 85vh; border-radius: 10px; border: 3px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
+        .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
 
         .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; gap: 10px; flex-wrap: wrap; }
         .qty-controls { display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 4px 8px; border-radius: 6px; }
@@ -86,7 +85,7 @@
         .remove-item { color: #c0392b; cursor: pointer; font-size: 18px; margin-left: 10px; }
         .clear-cart-btn { background: none; border: 1px solid #c0392b; color: #c0392b; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-top: 10px; font-weight: bold; }
 
-        .cart-input { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .cart-input, .cart-select { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         .star-red { color: red; font-weight: bold; }
         .privacy-notice { font-size: 11px; color: #7f8c8d; margin-top: 12px; line-height: 1.4; font-style: italic; border-top: 1px solid #eee; padding-top: 10px; }
 
@@ -97,56 +96,22 @@
 
         #btnUp { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; background-color: #e67e22; color: white; cursor: pointer; padding: 15px; border-radius: 50%; border: none; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
 
-        /* СПЕЦІАЛЬНА МОБІЛЬНА НАВІГАЦІЯ (ДЛЯ ТЕЛЕФОНІВ) */
         @media (max-width: 768px) {
             header { padding: 10px 15px; height: 50px; }
             .logo { font-size: 16px; }
             nav { gap: 10px; }
             nav a { font-size: 12px; }
             .cart-btn-header { padding: 6px 10px; font-size: 12px; }
-            
             .main-layout { flex-direction: column; padding: 10px; gap: 10px; }
-            
-            .sidebar { 
-                width: 100%; 
-                min-width: 0; 
-                position: sticky; 
-                top: 60px; /* ЗМІНЕНО з 50px на 60px для створення просвіту при скролі */
-                z-index: 1000; 
-                padding: 10px; 
-                background: rgba(255, 255, 255, 0.95); 
-                border-radius: 15px; /* Змінено для кращого вигляду з відступом */
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-                box-sizing: border-box;
-                margin-top: 10px; 
-            }
+            .sidebar { width: 100%; min-width: 0; position: sticky; top: 60px; z-index: 1000; padding: 10px; background: rgba(255, 255, 255, 0.95); border-radius: 15px; }
             .sidebar h3, .btn-review-sidebar { display: none; } 
-            
-            .sidebar ul { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 5px; 
-            }
+            .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
             .sidebar ul li { margin: 0; background: #f1f1f1; padding: 5px; border-radius: 5px; text-align: center; }
-            .sidebar ul li a { font-size: 11px; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-            .main-title { font-size: 18px; padding: 8px 15px; width: 100%; box-sizing: border-box; }
-            .category-header { margin-top: 20px; font-size: 15px; scroll-margin-top: 140px; }
-            
+            .sidebar ul li a { font-size: 11px; text-decoration: none; }
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .product-card { min-height: auto; padding: 10px; }
             .img-container { height: 140px; }
-            .item-name { font-size: 12px; height: 50px; }
-            .price-tag { font-size: 16px; }
-            .price-section { min-height: 100px; }
-            .btn-buy, .btn-desc, .btn-contact-item { padding: 10px; font-size: 11px; }
-
-            #btnUp { bottom: 20px; right: 20px; padding: 10px; }
         }
-
-        @media (max-width: 480px) {
-            .products-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 480px) { .products-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -166,10 +131,10 @@
     <aside class="sidebar">
         <h3>Навігація:</h3>
         <ul>
-            <li><a href="#w80">📦 SK 80г</a></li>
-            <li><a href="#w110">📦 SK 110г</a></li>
-            <li><a href="#w140">📦 SK 140г</a></li>
-            <li><a href="#geizer">📦 Гейзер</a></li>
+            <li><a href="#w80">📦 Технопланктон 80г</a></li>
+            <li><a href="#w110">📦 Технопланктон 110г</a></li>
+            <li><a href="#w140">📦 Технопланктон 140г</a></li>
+            <li><a href="#geizer">📦 Технопланктон Гейзер</a></li>
             <li><a href="#makuha">📦 Макуха</a></li>
             <li><a href="#kasha">📦 Прикормки</a></li>
             <li><a href="#poplavki">📦 Поплавці</a></li>
@@ -209,48 +174,59 @@
     </main>
 </div>
 
-<div id="cartModal" class="modal-bg">
-    <div class="modal-content">
+<div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
         <div class="shipping-info-banner">
-            🚚 <b>Замовлення відправляються протягом 24 годин</b> ("Нова Пошта", "УкрПошта", "MeestExpress").<br>
-            📱 Ви отримаєте сповішення про відправлення на вказаний номер телефону.
+            🚚 <b>Замовлення відправляються протягом 24 годин:</b><br>
+            <img src="Images/Novaposhta.png" class="shipping-icon-mini"> Нова Пошта, 
+            <img src="Images/Ukrposhta.png" class="shipping-icon-mini"> УкрПошта, 
+            <img src="Images/MeestExpress.png" class="shipping-icon-mini"> MeestExpress.
         </div>
         <h2>🛒 Ваш кошик</h2>
         <div id="cart-items-list"></div>
-        <div id="cart-controls" style="margin-top: 10px;"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
+        <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
         <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
-        <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative;">
+        
+        <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
             <label><span class="star-red">*</span> Ваше ім'я:</label>
             <input type="text" id="client-name" class="cart-input" placeholder="Введіть ім'я">
             <label><span class="star-red">*</span> Телефон:</label>
             <input type="tel" id="client-phone" class="cart-input" value="+380" maxlength="13"
-                   onkeydown="if(['Backspace','Delete'].includes(event.key) && this.selectionStart <= 4) event.preventDefault();"
                    oninput="if(!this.value.startsWith('+380')) this.value = '+380'; this.value = '+380' + this.value.substring(4).replace(/[^\d]/g, '');">
+            <label><span class="star-red">*</span> Служба доставки:</label>
+            <select id="shipping-method" class="cart-select" onchange="handleShippingChange()">
+                <option value="">Оберіть пошту...</option>
+                <option value="Nova Poshta">Нова Пошта</option>
+                <option value="Ukrposhta">УкрПошта</option>
+                <option value="Meest">Meest Express</option>
+            </select>
+            <div id="delivery-details" style="display:none;">
+                <label><span class="star-red">*</span> Місто:</label>
+                <input type="text" id="client-city" class="cart-input" placeholder="Введіть місто">
+                <label><span class="star-red">*</span> № Відділення / Адреса:</label>
+                <input type="text" id="client-address" class="cart-input" placeholder="Наприклад: Відділення №1">
+            </div>
             <label>Email (необов'язково):</label>
             <input type="email" id="client-email" class="cart-input" placeholder="example@gmail.com">
         </div>
-        <div style="position: relative;">
-            <button class="btn-submit-order" id="submit-order-btn" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
-        </div>
-        <div class="privacy-notice">
-            «Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних виключно для оформлення замовлення».
-        </div>
+        <button class="btn-submit-order" id="submit-order-btn" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+        <div class="privacy-notice">«Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних».</div>
     </div>
 </div>
 
-<div id="successModal" class="modal-bg" style="z-index: 5000;">
-    <div class="modal-content" style="max-width: 400px; padding: 40px 20px;">
-        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:35px; font-weight:bold; color:#333;" onclick="closeModal('successModal')">&times;</span>
-        <div style="font-size: 50px; margin-bottom: 15px;">✅</div>
-        <h2 style="color: #27ae60; margin-bottom: 15px;">Дякуємо за Ваше замовлення!</h2>
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">Ми з Вами зв'яжемось у найближчий час!</p>
-        <button class="btn-submit-order" style="margin-top: 20px; width: 100%;" onclick="closeModal('successModal')">Зрозуміло</button>
+<div id="successModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 400px; padding: 40px 20px;">
+        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:35px;" onclick="closeModal('successModal')">&times;</span>
+        <div style="font-size: 50px;">✅</div>
+        <h2 style="color: #27ae60;">Дякуємо за Ваше замовлення!</h2>
+        <p>Ми з Вами зв'яжемось у найближчий час!</p>
+        <button class="btn-submit-order" onclick="closeModal('successModal')">Зрозуміло</button>
     </div>
 </div>
 
-<div id="descModal" class="modal-bg">
-    <div class="modal-content">
+<div id="descModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('descModal')">&times;</span>
         <h2 id="descTitle"></h2>
         <div id="descText" style="white-space:pre-line; text-align:left; padding:10px; color:#444; font-size: 15px; line-height: 1.5;"></div>
@@ -258,41 +234,33 @@
     </div>
 </div>
 
-<div id="imageLightbox" class="modal-bg" onclick="closeModal('imageLightbox')">
-    <div class="modal-content" style="background:none; box-shadow:none;">
-        <span style="position:fixed; right:20px; top:10px; cursor:pointer; font-size:40px; color:white;">&times;</span>
-        <img id="lightboxImg" src="">
+<div id="imageLightbox" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" style="background:none;">
+        <img id="lightboxImg" src="" style="max-width:100%; max-height:85vh; border:3px solid white;">
     </div>
 </div>
 
-<div id="contactModal" class="modal-bg">
-    <div class="modal-content" style="max-width: 420px;">
+<div id="contactModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 420px;">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('contactModal')">&times;</span>
-        <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px;">
-            <span style="font-size: 24px;">📞</span> Контакти продавця
-        </h2>
-        <div style="display: inline-block; text-align: left;">
+        <h2>📞 Контакти продавця</h2>
+        <div style="text-align: left;">
+            <div class="contact-row"><span class="contact-label">Київстар:</span><span class="contact-number">+38 (097) 334-86-67 📞</span></div>
             <div class="contact-row">
-                <span class="contact-label">Київстар:</span>
-                <span class="contact-number">+38 (097) 334-86-67 📞</span>
-            </div>
-            <div class="contact-row">
-                <span class="contact-label">Lifecell:</span>
-                <span class="contact-number">+38 (093) 218-12-63 📞</span>
-                <a href="https://t.me/+380932181263" target="_blank"><img src="Images/telegram.jpg" class="messenger-icon" alt="Telegram"></a>
-                <a href="viber://chat?number=%2B380932181263" target="_blank"><img src="Images/viber.png" class="messenger-icon" alt="Viber"></a>
+                <span class="contact-label">Lifecell:</span><span class="contact-number">+38 (093) 218-12-63 📞</span>
+                <a href="https://t.me/+380932181263" target="_blank"><img src="Images/telegram.jpg" class="messenger-icon"></a>
+                <a href="viber://chat?number=%2B380932181263" target="_blank"><img src="Images/viber.png" class="messenger-icon"></a>
             </div>
             <div class="contact-row" style="margin-top: 15px;">
                 <span class="contact-label">E-mail:</span>
                 <span class="contact-number">olegkarpov078@gmail.com</span>
             </div>
         </div>
-        <button class="btn-contact-item" style="margin-top: 25px; width: 100%;" onclick="closeModal('contactModal')">Закрити</button>
+        <button class="btn-contact-item" style="margin-top:20px;" onclick="closeModal('contactModal')">Закрити</button>
     </div>
 </div>
 
 <script>
-    /* JavaScript логіка (залишено без змін) */
     let cart = JSON.parse(localStorage.getItem('fishingCart')) || [];
     const emailInfo = "\nE-mail : olegkarpov078@gmail.com";
     const flavors = [
@@ -301,32 +269,20 @@
         {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'}
     ];
 
-    window.onscroll = function() { scrollFunction() };
-    function scrollFunction() {
-        const btn = document.getElementById("btnUp");
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            btn.style.display = "block";
-        } else {
-            btn.style.display = "none";
-        }
-    }
-    function scrollToTop() {
-        window.scrollTo({top: 0, behavior: 'smooth'});
+    function handleShippingChange() {
+        const method = document.getElementById('shipping-method').value;
+        const details = document.getElementById('delivery-details');
+        details.style.display = method ? 'block' : 'none';
     }
 
-    function showPopup(text, targetElement, isError = false) {
-        const existing = targetElement.parentElement.querySelector('.toast-msg');
-        if (existing) existing.remove();
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg' + (isError ? ' toast-error' : '');
-        toast.innerHTML = `<span>${text}</span>`;
-        targetElement.parentElement.appendChild(toast);
-        setTimeout(() => { 
-            toast.style.opacity = '0';
-            toast.style.transition = '0.5s';
-            setTimeout(() => toast.remove(), 500);
-        }, 1500);
-    }
+    function handleBgClick(e) { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }
+
+    window.onscroll = function() {
+        const btn = document.getElementById("btnUp");
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) btn.style.display = "block";
+        else btn.style.display = "none";
+    };
+    function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
 
     function updateCartUI() { 
         document.getElementById('cart-count').innerText = cart.reduce((acc, i) => acc + i.qty, 0); 
@@ -340,6 +296,16 @@
         showPopup('Товар у кошику', btn);
     }
 
+    function showPopup(text, targetElement, isError = false) {
+        const existing = targetElement.parentElement.querySelector('.toast-msg');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg' + (isError ? ' toast-error' : '');
+        toast.innerHTML = `<span>${text}</span>`;
+        targetElement.parentElement.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 1500);
+    }
+
     function changeQty(name, delta) {
         const item = cart.find(i => i.name === name);
         if (item) {
@@ -351,18 +317,9 @@
 
     function removeFromCart(name) { cart = cart.filter(item => item.name !== name); updateCartUI(); openCart(); }
     function clearCart() { if (confirm("Очистити кошик?")) { cart = []; updateCartUI(); openCart(); } }
-    
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function openImage(src) { document.getElementById('lightboxImg').src = src; openModal('imageLightbox'); }
-
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-bg')) {
-            if (event.target === document.getElementById('successModal')) return;
-            const modals = document.getElementsByClassName('modal-bg');
-            for (let i = 0; i < modals.length; i++) { modals[i].style.display = "none"; }
-        }
-    };
 
     function openCart() {
         const list = document.getElementById('cart-items-list');
@@ -390,33 +347,32 @@
     }
 
     function sendOrderEmail() {
-        const nameInput = document.getElementById('client-name');
-        const phoneInput = document.getElementById('client-phone');
-        const submitBtn = document.getElementById('submit-order-btn');
+        const name = document.getElementById('client-name').value.trim();
+        const phone = document.getElementById('client-phone').value.trim();
+        const shipping = document.getElementById('shipping-method').value;
+        const city = document.getElementById('client-city').value.trim();
+        const address = document.getElementById('client-address').value.trim();
         const total = document.getElementById('cart-total-sum').innerText;
+        const submitBtn = document.getElementById('submit-order-btn');
 
-        if (!nameInput.value.trim() || phoneInput.value.length < 13) { 
-            showPopup("Заповніть Ім'я та Телефон!", submitBtn, true);
-            return; 
+        if (!name || phone.length < 13 || !shipping || !city || !address) {
+            showPopup("Заповніть усі обов'язкові поля!", submitBtn, true);
+            return;
         }
-        if (parseInt(total) < 400) { 
+        if (parseInt(total) < 400) {
             showPopup("Мінімум 400 грн!", submitBtn, true);
-            return; 
+            return;
         }
 
-        let details = "";
+        let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення/Адреса: ${address}\n\nТовари:\n`;
         cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
         
         emailjs.send("service_2xxpqzw", "template_dkcry58", {
-            from_name: nameInput.value, client_phone: phoneInput.value, order_details: details, total_sum: total, client_email: document.getElementById('client-email').value
+            from_name: name, client_phone: phone, order_details: details, total_sum: total, client_email: document.getElementById('client-email').value
         }).then(() => { 
             gtag('event', 'purchase', { 'value': parseFloat(total), 'currency': 'UAH' });
-            cart = []; updateCartUI(); 
-            closeModal('cartModal');
-            openModal('successModal');
-        }).catch(() => {
-            showPopup("Помилка відправки!", submitBtn, true);
-        });
+            cart = []; updateCartUI(); closeModal('cartModal'); openModal('successModal');
+        }).catch(() => showPopup("Помилка відправки!", submitBtn, true));
     }
 
     function createCard(img, name, p1, p2, opt, desc) {
