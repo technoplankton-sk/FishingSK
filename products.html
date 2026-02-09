@@ -104,16 +104,37 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
+        /* АДАПТАЦІЯ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ */
         @media (max-width: 768px) {
-            header { padding: 10px 15px; height: 50px; }
-            .main-layout { flex-direction: column; padding: 10px; gap: 10px; }
-            .sidebar { width: 100%; min-width: 0; position: sticky; top: 60px; z-index: 1000; padding: 10px; background: rgba(255, 255, 255, 0.95); border-radius: 15px; }
+            header { padding: 10px 15px; height: auto; flex-direction: column; gap: 10px; }
+            .logo { font-size: 18px; }
+            nav { gap: 10px; flex-wrap: wrap; justify-content: center; }
+            nav a { font-size: 12px; }
+            .cart-btn-header { padding: 6px 10px; font-size: 12px; }
+
+            .main-layout { flex-direction: column; padding: 10px; gap: 15px; }
+            
+            .sidebar { width: 100%; min-width: 0; position: sticky; top: 0; z-index: 1000; padding: 10px; background: rgba(255, 255, 255, 0.95); border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); box-sizing: border-box; }
             .sidebar h3, .btn-review-sidebar { display: none; } 
-            .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-            .sidebar ul li { margin: 0; background: #f1f1f1; padding: 5px; border-radius: 5px; text-align: center; }
-            .sidebar ul li a { font-size: 11px; text-decoration: none; }
+            .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+            .sidebar ul li { margin: 0; background: #f1f1f1; padding: 8px 5px; border-radius: 8px; text-align: center; }
+            .sidebar ul li a { font-size: 11px; text-decoration: none; color: #333; display: block; }
+
+            .content-section { padding: 0; }
+            .main-title { font-size: 18px; padding: 6px 20px; margin-bottom: 15px; }
+            .category-header { font-size: 14px; padding: 10px; margin: 30px 0 15px 0; }
+            
+            .seo-text-visible { padding: 15px; font-size: 13px; }
+            .seo-text-visible h1 { font-size: 18px; }
+
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .img-container { height: 140px; }
+            .product-card { min-height: 480px; padding: 10px; }
+            .img-container { height: 120px; margin-bottom: 8px; }
+            .item-name { font-size: 12px; height: 50px; line-height: 1.3; }
+            .price-tag { font-size: 16px; }
+            .price-opt { font-size: 10px; }
+            .min-order-info { font-size: 9px; padding-top: 4px; }
+            .btn-buy, .btn-desc, .btn-contact-item { padding: 8px; font-size: 11px; }
         }
     </style>
 </head>
@@ -306,7 +327,6 @@
         if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) btn.style.display = "block";
         else btn.style.display = "none";
     };
-
     function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
     
     function updateCartUI() { 
@@ -343,7 +363,7 @@
     function removeFromCart(name) { cart = cart.filter(item => item.name !== name); updateCartUI(); openCart(); }
     
     function clearCart() { 
-        cart = []; 
+        cart = [];
         updateCartUI(); 
         const list = document.getElementById('cart-items-list');
         list.innerHTML = '<p>Кошик порожній</p>';
@@ -410,7 +430,6 @@
         const payment = document.getElementById('payment-method').value;
         const total = document.getElementById('cart-total-sum').innerText;
         const submitBtn = document.getElementById('submit-order-btn');
-
         if (!name || phone.length < 13 || !shipping || !city || !address) {
             showPopup("Заповніть усі обов'язкові поля!", submitBtn, true);
             return;
@@ -422,7 +441,6 @@
 
         let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення: ${address}\nОплата: ${payment}\n\nТовари:\n`;
         cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
-
         emailjs.send("service_2xxpqzw", "template_dkcry58", {
             from_name: name, order_details: details, total_sum: total
         }).then(() => { 
@@ -466,38 +484,21 @@
                 document.getElementById(c.id).innerHTML += createCard(`Images/${c.folder}/${f.id}.jpg`, `Технопланктон (${f.name}) від Олега Карпова SK ${c.w}`, c.p, c.o, c.q, desc);
             });
         });
-
         const gDesc = `Завдяки оригінальним ароматам утримує рибу в зоні ловлі. При розчині дає хмару пилу, який так любить товстолоб. Пил стоїть у товщі води і не падає на дно.\nТип: Гейзер\nФлуоресцентний\nВологостійкість: до 5 годин\nВага: 140 грам\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263`;
         document.getElementById('containerGeizer').innerHTML += createCard('Images/geizer/geizer.jpg', 'Технопланктон(ГЕЙЗЕР) SK(всі смаки)(від Олега Карпова)140грам(флуоро)', 280, 150, 23, gDesc);
-
         document.getElementById('containerMakuha').innerHTML += createCard('Images/makuha/orig5.jpg', 'Макуха (смажена) оригінал 80г від Олега Карпова', 120, 60, 50, `Макуха смажена.\nсмак: оригінал\nрозмір: 4x4\nвага: 80 грамів\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
         document.getElementById('containerMakuha').innerHTML += createCard('Images/makuha/6p.jpg', 'Макуха SK (всі смаки)(пилюча,флуоро) 80г від Олега Карпова', 120, 60, 50, `Макуха пилюча(ФЛУОРО) від Олега Карпова\nсмаки : всі популярні.\nрозмір: 4x4\nвага: 80 грамів\nВиробник: Україна, м. Миколаїв\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
-
         document.getElementById('containerKasha').innerHTML += createCard('Images/kasha/kasha.jpg', 'Каша, прикормка, приманка(800г) Catch a fish', 70, null, 0, `Приманка має в складі високопротеїнові добавки, які сприяють приманінню риби в зоні лову. Має високу клейковину. До складу входить підсилювач смаку.\nЦіна 1уп. - 70 грн (800 грамів). Є будь-який смак (можна під замовлення).\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
         document.getElementById('containerKasha').innerHTML += createCard('Images/kasha/gluten.jpg', 'Соєвий глютен (клейковина суха)(у розвіс від 1кг)', 200, null, 0, `Соєвий глютен (клейковина суха)\nВикористовується для виробництва плавальних попапів і бойлів.\nціна (на розвіс від 1 кг): 200 грн/кг\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}`);
-
-        const pDescFull = `Поплавець на товстолоба (Розмір XXXL). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також- від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опору в воді він краще пробиває губу товстолоба та запобігає сходу риби.
-В 1й упаковці 5шт.
-Матеріал: Поліпропіленоуретан високої щільності.
-Виробник: Олег Карпов( виробник технопланктона "Октябрьский")
-м. Миколаїв, тел.: (097)3348667, (093)2181263`;
-
-        const pDescSvFull = `Поплавець на товстолоба (Розмір XXXL) зі світлячком (акумулятор заряджається від USB). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опорі в воді він краще пробиває губу товстолоба та запобігає сходу риби.
-В 1й упаковці 5шт.
-Матеріал: Поліпропіленоуретан високої щільності.
-Виробник: Олег Карпов( виробник технопланктона "Октябрьский")
-м. Миколаїв, тел.: (097)3348667, (093)2181263`;
-
+        const pDescFull = `Поплавець на товстолоба (Розмір XXXL). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також- від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опору в воді він краще пробиває губу товстолоба та запобігає сходу риби. В 1й упаковці 5шт. Матеріал: Поліпропіленоуретан високої щільності. Виробник: Олег Карпов( виробник технопланктона "Октябрьский") м. Миколаїв, тел.: (097)3348667, (093)2181263`;
+        const pDescSvFull = `Поплавець на товстолоба (Розмір XXXL) зі світлячком (акумулятор заряджається від USB). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опорі в воді він краще пробиває губу товстолоба та запобігає сходу риби. В 1й упаковці 5шт. Матеріал: Поліпропіленоуретан високої щільності. Виробник: Олег Карпов( виробник технопланктона "Октябрьский") м. Миколаїв, тел.: (097)3348667, (093)2181263`;
         document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplav.jpg', 'Поплавець на товстолоба SK XXXL(5шт/уп.)', 400, 200, 10, pDescFull);
         document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL(зі світлячком)(5шт/уп.)', 600, 400, 10, pDescSvFull);
-
         const lineDesc1000 = `Волосінь рибальська високої міцності з флуорокарбоновим покриттям. Не має пам'яті. Довжина: 1000м. Ø: від 0,30 мм до 0,50 мм.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}`;
         const lineDesc200 = `Волосінь рибальська флуоресцентна, дуже міцна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263`;
-        
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності (1000м)', 500, null, 0, lineDesc1000);
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (Ø=1.5мм)', 500, null, 0, lineDesc200);
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
-
         updateCartUI();
         setInterval(checkRateLimit, 30000);
     };
