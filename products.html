@@ -104,6 +104,16 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
+        /* Стилі для блоку повернення */
+        .refund-policy-container { text-align: left; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+        .refund-policy-container summary { padding: 10px; font-weight: bold; cursor: pointer; background: #f1f1f1; list-style: none; display: flex; justify-content: space-between; align-items: center; color: #333; font-size: 14px; }
+        .refund-policy-container summary::-webkit-details-marker { display: none; }
+        .refund-policy-container summary::after { content: '▼'; font-size: 10px; }
+        .refund-policy-container[open] summary::after { content: '▲'; }
+        .refund-content { padding: 15px; font-size: 13px; line-height: 1.5; color: #444; border-top: 1px solid #ddd; }
+        .refund-content ol { padding-left: 20px; margin: 0; }
+        .refund-content li { margin-bottom: 8px; }
+
         /* АДАПТАЦІЯ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ */
         @media (max-width: 768px) {
             header { padding: 10px 15px; height: auto; flex-direction: column; gap: 10px; position: sticky; top: 0; z-index: 1001; }
@@ -226,6 +236,20 @@
             <img src="Images/ukrposhta.png" class="shipping-icon-mini"> УкрПошта, 
             <img src="Images/meestexpress.png" class="shipping-icon-mini"> MeestExpress.
         </div>
+
+        <details class="refund-policy-container">
+            <summary>Умови повернення та обміну товару</summary>
+            <div class="refund-content">
+                <ol>
+                    <li><b>Терміни повернення:</b> Ви можете повернути або обміняти товар протягом 14 днів з моменту отримання, згідно із "Законом про захист прав споживачів".</li>
+                    <li><b>Умови:</b> Товар підлягає поверненню, якщо він не використовувався, збережено його товарний вигляд, цілісність упаковки (герметичність технопланктону не порушена) та відсутні сліди відкриття.</li>
+                    <li><b>Повернення коштів:</b> Грошові кошти повертаються покупцеві на банківську карту протягом 3–7 робочих днів після отримання нами повернутого товару та перевірки його цілісності.</li>
+                    <li><b>Транспортні витрати:</b> Якщо повернення відбувається через помилку магазину (не той смак, вага), доставку оплачуємо ми. В інших випадках доставку оплачує покупець за тарифами перевізника.</li>
+                    <li><b>Контакти для повернення:</b> Для оформлення повернення зв'яжіться з нами за телефоном +38 (097) 334-86-67 або напишіть лист на olegkarpov078@gmail.com.</li>
+                </ol>
+            </div>
+        </details>
+
         <h2>🛒 Ваш кошик</h2>
         <div id="cart-items-list"></div>
         <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
@@ -524,4 +548,3 @@
 </script>
 </body>
 </html>
-
