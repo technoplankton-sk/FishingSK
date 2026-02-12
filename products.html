@@ -158,6 +158,23 @@
             .price-opt { font-size: 10px; }
             .min-order-info { font-size: 9px; padding-top: 4px; }
             .btn-buy, .btn-desc, .btn-contact-item { padding: 8px; font-size: 11px; }
+
+            /* Стиль для нової кнопки Відгуки в мобільному меню */
+            .mobile-only-review {
+                background: #34495e;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 10px;
+                font-size: 12px;
+                font-weight: bold;
+                text-decoration: none;
+                display: block;
+            }
+        }
+
+        /* Приховати мобільну кнопку на ПК */
+        @media (min-width: 769px) {
+            .mobile-only-review { display: none; }
         }
     </style>
 </head>
@@ -171,6 +188,7 @@
         <a href="index.html">Головна</a>
         <a href="galery.html">Галерея</a> 
         <a onclick="openModal('contactModal')">Контакти</a>
+        <a href="vidguk.html" class="mobile-only-review">Відгуки</a>
         <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
     </nav>
 </header>
