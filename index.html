@@ -234,25 +234,6 @@
         .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 25px; border-radius: 12px; font-size: 14px; font-weight: bold; z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px; border: 1px solid #333; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
     </style>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Store",
-      "name": "Технопланктон SK — Олег Карпов",
-      "url": "https://technoplankton-sk.github.io/FishingSK/",
-      "logo": "https://technoplankton-sk.github.io/FishingSK/logo.png",
-      "image": "https://technoplankton-sk.github.io/FishingSK/Images/og-image.jpg",
-      "description": "Офіційний сайт Технопланктон SK від Олега Карпова. Найкраща прикормка для товстолоба.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Миколаїв",
-        "streetAddress": "ринок Колос, 134й контейнер",
-        "addressCountry": "UA"
-      },
-      "telephone": "+380973348667"
-    }
-    </script>
 </head>
 <body>
 
@@ -295,15 +276,15 @@
         <div class="section-title">Наші товари:</div>
 
         <div class="categories-grid">
-            <a href="products.html#cat-80" class="category-card">
+            <a href="products.html#w80" class="category-card">
                 <img src="Images/80g/pryajenka.jpg" alt="Технопланктон 80г">
                 <span>📦 Технопланктон 80г</span>
             </a>
-            <a href="products.html#cat-110" class="category-card">
+            <a href="products.html#w110" class="category-card">
                 <img src="Images/110g/grusha.jpg" alt="Технопланктон 110г">
                 <span>📦 Технопланктон 110г</span>
             </a>
-            <a href="products.html#cat-140" class="category-card">
+            <a href="products.html#w140" class="category-card">
                 <img src="Images/140g/med.jpg" alt="Технопланктон 140г">
                 <span>📦 Технопланктон 140г</span>
             </a>
@@ -548,12 +529,20 @@
                 return;
             }
 
-            let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення: ${address}\nОплата: ${payment}\n\nТовари:\n`;
-            cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
+            let details = cart.map(i => `${i.name} (${i.qty} шт.)`).join(', ');
             
-            emailjs.send("service_2xxpqzw", "template_dkcry58", {
-                from_name: name, order_details: details, total_sum: total
-            }).then(() => { 
+            const templateParams = {
+                from_name: name,
+                user_phone: phone,
+                user_address: address,
+                shipping_method: shipping,
+                payment_method: payment,
+                order_details: details,
+                total_sum: total
+            };
+
+            emailjs.send("service_2xxpqzw", "template_dkcry58", templateParams)
+            .then(() => { 
                 recordOrder();
                 cart = []; updateCartUI(); closeModal('cartModal'); 
                 openModal('successOrderModal');
