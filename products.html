@@ -189,10 +189,10 @@
 <header id="mainHeader">
     <div class="logo">Технопланктон SK</div>
     <nav>
-        <a href="index.html"><img src="My-Site/home-button_5974636.png" class="nav-icon">Головна</a>
-        <a href="galery.html"><img src="My-Site/home-button_5974636.png" class="nav-icon">Галерея</a> 
-        <a onclick="openModal('contactModal')"><img src="My-Site/contacts.png" class="nav-icon">Контакти</a>
-        <a href="vidguk.html" class="mobile-only-review"><img src="My-Site/otzivi.png" class="nav-icon">Відгуки</a>
+        <a href="index.html"><img src="home-button_5974636.png" class="nav-icon">Головна</a>
+        <a href="galery.html"><img src="galerybutton.png" class="nav-icon">Галерея</a> 
+        <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon">Контакти</a>
+        <a href="vidguk.html" class="mobile-only-review"><img src="otzivi.png" class="nav-icon">Відгуки</a>
         <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
     </nav>
 </header>
@@ -273,6 +273,7 @@
         </details>
 
         <h2>🛒 Ваш кошик</h2>
+        <div style="color: #c0392b; font-weight: bold; font-size: 15px; margin-bottom: 10px;">Доставка оплачується окремо.</div>
         <div id="cart-items-list"></div>
         <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
         <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
@@ -320,6 +321,10 @@
             <div class="contact-row" style="margin-top: 15px;">
                 <span class="contact-label">E-mail:</span><span class="contact-number">olegkarpov078@gmail.com</span>
             </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #e67e22; color: #333; line-height: 1.4;">
+                <b style="color: #000;">Адреса нашого магазину:</b><br>
+                Україна, м. Миколаїв, ринок "Колос", 134й контейнер (біля магазину "Канцелярский мир").
+            </div>
         </div>
         <button class="btn-contact-item" style="margin-top:20px;" onclick="closeModal('contactModal')">Закрити</button>
     </div>
@@ -336,6 +341,15 @@
 
 <div id="imageLightbox" class="modal-bg" onclick="handleBgClick(event)">
     <img id="lightboxImg" onclick="closeModal('imageLightbox')">
+</div>
+
+<div id="successOrderModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" style="max-width: 400px; padding: 40px 20px;">
+        <div style="font-size: 50px; color: #27ae60; margin-bottom: 20px;">✅</div>
+        <h2 style="color: #27ae60; margin-bottom: 15px;">Дякуємо!</h2>
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">Ваше замовлення прийнято.<br>Ми зв'яжемось з Вами у найближчий час.</p>
+        <button class="btn-buy" style="margin-top: 25px; width: 150px; display: inline-block;" onclick="closeModal('successOrderModal')">ОК</button>
+    </div>
 </div>
 
 <script>
@@ -504,7 +518,8 @@
             from_name: name, order_details: details, total_sum: total
         }).then(() => { 
             recordOrder();
-            cart = []; updateCartUI(); closeModal('cartModal'); alert("Дякуємо! Замовлення прийнято.");
+            cart = []; updateCartUI(); closeModal('cartModal'); 
+            openModal('successOrderModal'); // ВІДКРИТТЯ КРАСИВОГО ВІКНА ЗАМІСТЬ ALERT
         }).catch(() => showPopup("Помилка відправки!", submitBtn, true));
     }
 
