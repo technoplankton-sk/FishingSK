@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/png" href="logo.png">
     <title>Відгуки - Технопланктон SK</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -34,7 +34,6 @@
         }
         .back-link:hover { color: #27ae60; text-decoration: underline; }
 
-        /* Форма відгуку */
         .review-form {
             display: flex; flex-direction: column; gap: 15px;
             padding-bottom: 30px; border-bottom: 2px solid #ddd; margin-bottom: 30px;
@@ -54,7 +53,6 @@
         .btn-submit:hover { background: #219150; }
         .btn-submit:disabled { background: #95a5a6; cursor: not-allowed; }
 
-        /* Список відгуків */
         .reviews-list { display: flex; flex-direction: column; gap: 20px; }
         .review-item {
             background: white; padding: 20px; border-radius: 15px;
@@ -83,7 +81,7 @@
     
     <form class="review-form" id="reviewForm">
         <input type="text" id="userName" placeholder="Ваше ім'я" required>
-        <textarea id="userReview" placeholder="Ваш відгук про наш Технопланктон..." required></textarea>
+        <textarea id="userReview" placeholder="Ваш відгук про наш товар..." required></textarea>
         <button type="submit" class="btn-submit" id="submitBtn">Опублікувати відгук</button>
     </form>
 
@@ -94,9 +92,8 @@
 </div>
 
 <script>
-    // Твій конфіг Firebase
     const firebaseConfig = {
-        apiKey: "AIzaSyC5LQX3s_fDgd0tG56YCSiqRN4sumdtEss",
+        
         authDomain: "plankton-sk.firebaseapp.com",
         databaseURL: "https://plankton-sk-default-rtdb.firebaseio.com",
         projectId: "plankton-sk",
@@ -106,7 +103,6 @@
         measurementId: "G-ZMS86KLZ23"
     };
 
-    // Ініціалізація
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
@@ -114,7 +110,6 @@
     const container = document.getElementById('reviewsContainer');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Функція відображення відгуків (працює в реальному часі)
     function listenForReviews() {
         database.ref('reviews').on('value', (snapshot) => {
             const data = snapshot.val();
@@ -125,7 +120,6 @@
                 return;
             }
 
-            // Перетворюємо в масив та сортуємо (нові зверху)
             const reviewsArray = Object.values(data).sort((a, b) => new Date(b.date) - new Date(a.date));
 
             reviewsArray.forEach(r => {
@@ -150,23 +144,18 @@
         });
     }
 
-    // Відправка нового відгуку
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         
         submitBtn.disabled = true;
         submitBtn.innerText = "Відправка...";
 
-        const nameInput = document.getElementById('userName');
-        const textInput = document.getElementById('userReview');
-
         const newReview = {
-            name: nameInput.value.trim(),
-            text: textInput.value.trim(),
+            name: document.getElementById('userName').value.trim(),
+            text: document.getElementById('userReview').value.trim(),
             date: new Date().toISOString()
         };
 
-        // Зберігаємо в хмару
         database.ref('reviews').push(newReview)
             .then(() => {
                 form.reset();
@@ -175,16 +164,14 @@
             })
             .catch(error => {
                 console.error("Помилка:", error);
-                alert("Вибачте, сталася помилка при відправці. Перевірте Rules у консолі Firebase.");
+                alert("Помилка при відправці.");
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Спробувати ще раз";
             });
     });
 
-    // Запуск при завантаженні
     listenForReviews();
 </script>
 
 </body>
-
 </html>
