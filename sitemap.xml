@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org">
+  <!-- Головна сторінка -->
   <url>
-    <loc>https://technoplankton-sk.github.io/FishingSK/index.html</loc>
-    <lastmod>2026-02-11</lastmod>
-    <priority>1.00</priority>
+    <loc>https://technoplankton-sk.github.io/FishingSK/</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
 
+  <!-- Товари -->
   <url>
     <loc>https://technoplankton-sk.github.io/FishingSK/products.html</loc>
-    <lastmod>2026-02-11</lastmod>
-    <priority>0.90</priority>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Галерея -->
   <url>
     <loc>https://technoplankton-sk.github.io/FishingSK/galery.html</loc>
-    <lastmod>2026-02-11</lastmod>
-    <priority>0.70</priority>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
+  <!-- Відгуки -->
   <url>
     <loc>https://technoplankton-sk.github.io/FishingSK/vidguk.html</loc>
-    <lastmod>2026-02-11</lastmod>
-    <priority>0.60</priority>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
