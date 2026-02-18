@@ -35,52 +35,227 @@
 
     <style>
         /* БАЗОВІ СТИЛІ */
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('Images/5.jpg') no-repeat center center fixed; background-size: cover; color: white; min-height: 100vh; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1001; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+            background: url('Images/5.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: white; 
+            min-height: 100vh; 
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 50px; 
+            background: #000000; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1001; 
+        }
+
         .logo { font-size: 20px; font-weight: bold; }
+
         nav { display: flex; align-items: center; gap: 20px; }
-        nav a { color: white; text-decoration: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-size: 14px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+        }
         nav a:hover { color: #e67e22; }
         
         /* Стиль для іконок в меню */
         .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
 
-        .cart-btn-header { background: #e67e22; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
-        #cart-count { background: #c0392b; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 8px; }
+        .cart-btn-header { 
+            background: #e67e22; 
+            padding: 8px 15px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            transition: 0.3s; 
+        }
+        #cart-count { 
+            background: #c0392b; 
+            color: white; 
+            border-radius: 50%; 
+            padding: 2px 7px; 
+            font-size: 12px; 
+            margin-left: 8px; 
+        }
         
-        .main-layout { display: flex; flex-direction: row; padding: 30px 50px; gap: 30px; max-width: 1600px; margin: 0 auto; }
-        .sidebar { width: 250px; min-width: 250px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; position: sticky; top: 80px; z-index: 100; }
+        .main-layout { 
+            display: flex; 
+            flex-direction: row; 
+            padding: 30px 50px; 
+            gap: 30px; 
+            max-width: 1600px; 
+            margin: 0 auto; 
+        }
+
+        .sidebar { 
+            width: 250px; 
+            min-width: 250px; 
+            background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(10px); 
+            border-radius: 20px; 
+            padding: 20px; 
+            height: fit-content; 
+            position: sticky; 
+            top: 80px; 
+            z-index: 100; 
+        }
         .sidebar h3 { color: #000000; margin: 20px 0 10px 0; }
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
         .sidebar ul li a { color: #000000; text-decoration: underline; font-size: 15px; }
         
-        .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #000000; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; }
+        .btn-review-sidebar { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            width: 100%; 
+            padding: 12px; 
+            margin-top: 10px; 
+            background: #000000; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-decoration: none; 
+            text-align: center; 
+            font-size: 13px; 
+            transition: 0.3s; 
+        }
         .btn-review-sidebar:hover { background: #333333; transform: scale(1.02); }
 
         .content-section { flex: 1; text-align: center; } 
-        .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: bold; font-size: 22px; margin-bottom: 25px; }
-        .category-header { background: #000000; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 18px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
+        .main-title { 
+            background: white; 
+            color: #1a1a1a; 
+            display: inline-block; 
+            padding: 8px 30px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 22px; 
+            margin-bottom: 25px; 
+        }
+        .category-header { 
+            background: #000000; 
+            color: white; 
+            padding: 12px; 
+            border-radius: 10px; 
+            margin: 50px 0 20px 0; 
+            font-size: 18px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            width: 100%; 
+            box-sizing: border-box; 
+            scroll-margin-top: 180px; 
+        }
         
-        .seo-text-visible { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); color: #ffffff; padding: 25px; border-radius: 15px; margin-bottom: 25px; text-align: left; line-height: 1.6; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .seo-text-visible { 
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(5px); 
+            color: #ffffff; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-bottom: 25px; 
+            text-align: left; 
+            line-height: 1.6; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
         .seo-text-visible h1 { font-size: 24px; margin-top: 0; color: #e67e22; }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+        }
         
-        .product-card { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); border-radius: 15px; padding: 15px; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; min-height: 640px; border: 1px solid rgba(255, 255, 255, 0.2); position: relative; box-sizing: border-box; }
+        .product-card { 
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(5px); 
+            border-radius: 15px; 
+            padding: 15px; 
+            text-align: center; 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 640px; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            position: relative; 
+            box-sizing: border-box; 
+        }
         
-        .img-container { width: 100%; height: 180px; overflow: hidden; border-radius: 10px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; cursor: zoom-in; transition: 0.3s; }
+        .img-container { 
+            width: 100%; 
+            height: 180px; 
+            overflow: hidden; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            background: rgba(255, 255, 255, 0.1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: zoom-in; 
+            transition: 0.3s; 
+        }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        .item-name { font-size: 14px; font-weight: bold; height: 60px; display: flex; align-items: center; justify-content: center; color: #fff; }
+        .item-name { 
+            font-size: 14px; 
+            font-weight: bold; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #fff; 
+        }
         
         .price-section { min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
         .price-tag { color: #2ecc71; font-size: 20px; font-weight: 800; }
         .price-opt { color: #f39c12; font-size: 12px; font-weight: bold; }
-        .min-order-info { color: #ff7675; font-size: 11px; font-weight: bold; margin-top: 6px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 6px; line-height: 1.3; }
+        .min-order-info { 
+            color: #ff7675; 
+            font-size: 11px; 
+            font-weight: bold; 
+            margin-top: 6px; 
+            border-top: 1px dashed rgba(255,255,255,0.2); 
+            padding-top: 6px; 
+            line-height: 1.3; 
+        }
         
         .card-buttons { display: flex; flex-direction: column; gap: 6px; margin-top: auto; position: relative; }
-        .btn-buy, .btn-desc, .btn-contact-item, .btn-submit-order { display: flex; align-items: center; justify-content: center; gap: 5px; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; width: 100%; transition: 0.2s; }
+        .btn-buy, .btn-desc, .btn-contact-item, .btn-submit-order { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 5px; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 13px; 
+            width: 100%; 
+            transition: 0.2s; 
+        }
         
         .btn-buy { background: #e67e22; }
         .btn-contact-item { background: #27ae60; }
@@ -88,11 +263,64 @@
         .btn-submit-order { background: #000000; font-size: 16px; margin-top: 10px; padding: 15px; border: 1px solid #fff; }
         .btn-submit-order:disabled { background: #7f8c8d; cursor: not-allowed; }
 
-        .toast-msg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #27ae60; padding: 8px 15px; border-radius: 10px; font-size: 13px; font-weight: bold; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; animation: fadeIn 0.3s; border: 1px solid #27ae60; pointer-events: none; width: max-content; }
-        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
-        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
+        .toast-msg { 
+            position: absolute; 
+            bottom: 50px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: #1a1a1a; 
+            color: #27ae60; 
+            padding: 8px 15px; 
+            border-radius: 10px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            z-index: 3000; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            animation: fadeIn 0.3s; 
+            border: 1px solid #27ae60; 
+            pointer-events: none; 
+            width: max-content; 
+        }
+        .modal-bg { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 2000; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 10px; 
+            box-sizing: border-box; 
+        }
+        .modal-content { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 100%; 
+            max-width: 500px; 
+            text-align: center; 
+            color: #333; 
+            position: relative; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
         
-        #imageLightbox img { max-width: 95vw; max-height: 95vh; width: auto; height: auto; object-fit: contain; border: 3px solid #fff; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        #imageLightbox img { 
+            max-width: 95vw; 
+            max-height: 95vh; 
+            width: auto; 
+            height: auto; 
+            object-fit: contain; 
+            border: 3px solid #fff; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+        }
 
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
         .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
@@ -465,7 +693,10 @@
 <button onclick="scrollToTop()" id="btnUp" title="Нагору">▲</button>
 
 <header id="mainHeader">
-    <div class="logo">Технопланктон SK</div>
+    <div class="logo" style="display: flex; flex-direction: column;">
+        <span>Технопланктон "Октябрьский" ( SK)</span>
+        <span style="font-size: 12px; font-weight: normal; margin-top: 3px;">Офіційний сайт Олега Карпова</span>
+    </div>
     <nav>
         <a href="index.html"><img src="home-button_5974636.png" class="nav-icon">Головна</a>
         <a href="galery.html"><img src="galerybutton.png" class="nav-icon">Галерея</a> 
@@ -877,15 +1108,7 @@
         const p2 = banner + `Поплавець на товстолоба (Розмір XXXL) зі світлячком (акумулятор заряджається від USB). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опорі в воді він краще пробиває губу товстолоба та запобігає сходу риби. В 1й упаковці 5шт. Матеріал: Поліпропіленоуретан високої щільності. Виробник: Олег Карпов( виробник технопланктона "Октябрьский") м. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}${buyCall}`;
         document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL (зі світлячком) (5шт/уп.)', 600, 400, 10, p2);
 
-        const s1 = banner + `Волосінь рибальська високої міцності
-з флуорокарбоновим покриттям.
-Не має пам'яті.
-Довжина: 1000м
-Діаметр Ø: від 0,30 мм до 0,50 мм
-(Розривне навантаження для 0.30мм- 10кг, для 0.40мм- 19.2кг, для 0.5мм- 23,8кг)
-Матеріал із Японії.
-Ціна: 500 грн
-тел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}${buyCall}`;
+        const s1 = banner + `Волосінь рибальська високої міцності\nз флуорокарбоновим покриттям.\nНе має пам'яті.\nДовжина: 1000м\nДіаметр Ø: від 0,30 мм до 0,50 мм\n(Розривне навантаження для 0.30мм- 10кг, для 0.40мм- 19.2кг, для 0.5мм- 23,8кг)\nМатеріал із Японії.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}${buyCall}`;
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності (1000м)', 500, null, 0, s1);
         
         const s2 = banner + `Волосінь рибальська флуоресцентна, дуже міцна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
