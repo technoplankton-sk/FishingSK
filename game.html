@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>Міні-гра: Спіймай товстолоба та отримай знижку 5% - Технопланктон SK</title>
+    
+    <style>
+        /* БАЗОВІ СТИЛІ З ВАШОГО САЙТУ */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+            background: url('Images/5.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: white; 
+            min-height: 100vh; 
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 50px; 
+            background: #000000; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1001; 
+        }
+
+        .logo { font-size: 20px; font-weight: bold; }
+
+        nav { display: flex; align-items: center; gap: 20px; }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-size: 14px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+        }
+        nav a:hover { color: #e67e22; }
+        .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
+
+        .main-layout { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            padding: 30px 20px; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+        }
+
+        .main-title { 
+            background: white; 
+            color: #1a1a1a; 
+            display: inline-block; 
+            padding: 10px 40px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 24px; 
+            margin-bottom: 25px; 
+            text-align: center;
+        }
+
+        .seo-text-visible { 
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(5px); 
+            color: #ffffff; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-bottom: 25px; 
+            text-align: center; 
+            line-height: 1.6; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .seo-text-visible h1 { font-size: 22px; margin-top: 0; color: #e67e22; }
+
+        .btn-buy { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 5px; 
+            color: white; 
+            background: #e67e22;
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: 0.2s; 
+        }
+        .btn-buy:hover { transform: scale(1.05); }
+
+        /* СТИЛІ ІГРИ */
+        #game-container {
+            width: 100%;
+            max-width: 600px;
+            background: #1a1a1a;
+            border-radius: 15px;
+            border: 2px solid #e67e22;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #water-area {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(to bottom, #74b9ff 0%, #0984e3 100%);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            cursor: crosshair;
+        }
+
+        #water-surface {
+            position: absolute;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px white;
+            z-index: 2;
+        }
+
+        #float-item {
+            position: absolute;
+            left: 50%;
+            top: 30%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 120px;
+            background: url('Images/poplGame.png') no-repeat center;
+            background-size: contain;
+            cursor: pointer;
+            transition: top 0.1s ease-out;
+            display: none; /* Приховано до старту */
+            z-index: 10;
+        }
+
+        /* Анімація спокійного погойдування */
+        .bobbing {
+            animation: bob 3s infinite ease-in-out;
+        }
+        @keyframes bob {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 15px) rotate(3deg); }
+        }
+
+        /* Анімація покльовки (йде під воду) */
+        .biting {
+            top: 60% !important; /* Різко вниз */
+            transform: translateX(-50%) rotate(-10deg) !important;
+            transition: top 0.1s cubic-bezier(0.1, 0.9, 0.2, 1) !important;
+        }
+
+        /* СТИЛІ ДЛЯ РИБОК */
+        .fish {
+            position: absolute;
+            white-space: nowrap;
+            user-select: none;
+            pointer-events: none; /* Щоб не заважали клікати на поплавець */
+            z-index: 1;
+        }
+        .fish-left {
+            animation: swimLeft linear infinite;
+            transform: scaleX(-1);
+        }
+        .fish-right {
+            animation: swimRight linear infinite;
+        }
+        @keyframes swimRight {
+            from { left: -50px; }
+            to { left: 110%; }
+        }
+        @keyframes swimLeft {
+            from { left: 110%; }
+            to { left: -50px; }
+        }
+
+        .modal-bg { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 2000; 
+            justify-content: center; align-items: center; 
+            padding: 10px; box-sizing: border-box; 
+        }
+        .modal-content { 
+            background: white; padding: 30px; border-radius: 20px; 
+            width: 100%; max-width: 450px; text-align: center; color: #333; 
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 10px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            #water-area { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" style="display: flex; flex-direction: column;">
+        <span>Технопланктон "Октябрьский" ( SK)</span>
+        <span style="font-size: 12px; font-weight: normal; margin-top: 3px;">Офіційний сайт Олега Карпова</span>
+    </div>
+    <nav>
+        <a href="index.html"><img src="home-button_5974636.png" class="nav-icon" onerror="this.style.display='none'">Головна</a>
+        <a href="products.html">Каталог товарів</a>
+    </nav>
+</header>
+
+<div class="main-layout">
+    <div class="main-title">🎣 Спіймай товстолоба!</div>
+    
+    <div class="seo-text-visible">
+        <h1>Правила гри:</h1>
+        <p>Поплавець мирно гойдається на хвилях. Уважно слідкуйте за ним!</p>
+        <p>Коли товстолоб почне клювати, <b style="color:#e67e22;">поплавець різко піде під воду</b>. Ваша задача — <b>швидко натиснути на нього</b> (підсікти) саме в цей момент!</p>
+        <p>Якщо встигнете — отримаєте постійну знижку 5% на ваше поточне замовлення. У вас є лише 3 спроби. Ні пуху, ні пера!</p>
+    </div>
+
+    <div id="game-container">
+        <div class="game-stats">
+            <span style="color: #f1c40f;">Спроби: <span id="attempts-count">3</span> ❤️</span>
+            <span id="game-status" style="color: #bdc3c7;">Очікування старту...</span>
+        </div>
+
+        <div id="water-area">
+            <div id="water-surface"></div>
+            <div id="float-item" class="bobbing" onclick="catchFish()"></div>
+        </div>
+
+        <button id="start-btn" class="btn-buy" style="margin-top: 20px; width: 100%;" onclick="startGame()">▶ РОЗПОЧАТИ РИБОЛОВЛЮ</button>
+    </div>
+</div>
+
+<!-- Модальне вікно: Перемога -->
+<div id="winModal" class="modal-bg">
+    <div class="modal-content">
+        <div style="font-size: 50px; margin-bottom: 10px;">🏆</div>
+        <h2 style="color: #27ae60;">Є ТРОФЕЙ!</h2>
+        <p style="font-size: 16px; line-height: 1.5;">Чудова реакція! Ви вчасно підсікли товстолоба.</p>
+        <p style="font-size: 16px; font-weight: bold; background: #f1f2f6; padding: 15px; border-radius: 10px; color: #e67e22;">
+            Ваша знижка 5% активована!
+        </p>
+        <p style="font-size: 13px; color: #7f8c8d;">Знижка автоматично застосується у кошику при оформленні замовлення.</p>
+        <button class="btn-buy" style="margin-top: 15px; width: 100%;" onclick="goToProducts()">Перейти до каталогу 🛒</button>
+    </div>
+</div>
+
+<!-- Модальне вікно: Програш -->
+<div id="loseModal" class="modal-bg">
+    <div class="modal-content">
+        <div style="font-size: 50px; margin-bottom: 10px;">🐟💨</div>
+        <h2 style="color: #c0392b;">Зірвався...</h2>
+        <p style="font-size: 16px; line-height: 1.5;">Спроби вичерпано. Товстолоб виявився хитрішим і вкрав планктон.</p>
+        <p style="font-size: 14px; color: #555;">Не засмучуйтесь, спробуйте свої сили наступного разу!</p>
+        <button class="btn-buy" style="margin-top: 15px; background: #7f8c8d; width: 100%;" onclick="location.reload()">Спробувати ще раз 🔄</button>
+        <button class="btn-buy" style="margin-top: 10px; width: 100%; background: #000;" onclick="goToProducts()">Повернутись до магазину</button>
+    </div>
+</div>
+
+<script>
+    let attempts = 3;
+    let isBiting = false;
+    let gameActive = false;
+    let biteTimer;
+    let nextBiteTimeout;
+
+    const floatItem = document.getElementById('float-item');
+    const statusText = document.getElementById('game-status');
+    const attemptsText = document.getElementById('attempts-count');
+    const startBtn = document.getElementById('start-btn');
+
+    function spawnFish() {
+        const water = document.getElementById('water-area');
+        const numFish = 15;
+        const fishTypes = ['🐟', '🐠', '🦈'];
+        
+        for(let i=0; i<numFish; i++) {
+            let fish = document.createElement('div');
+            let isRight = Math.random() > 0.5;
+            fish.className = 'fish ' + (isRight ? 'fish-right' : 'fish-left');
+            fish.innerText = fishTypes[Math.floor(Math.random() * fishTypes.length)];
+            
+            // Випадкова глибина (від 20% до 85% висоти водойми)
+            fish.style.top = (Math.random() * 65 + 20) + '%'; 
+            // Випадковий розмір рибок
+            fish.style.fontSize = (Math.random() * 20 + 15) + 'px'; 
+            // Випадкова прозорість для ефекту глибини
+            fish.style.opacity = (Math.random() * 0.4 + 0.1); 
+            // Випадкова швидкість плавання (від 5 до 15 секунд)
+            fish.style.animationDuration = (Math.random() * 10 + 5) + 's'; 
+            // Випадковий стартовий час, щоб вони не пливли одночасно
+            fish.style.animationDelay = '-' + (Math.random() * 10) + 's'; 
+            
+            water.appendChild(fish);
+        }
+    }
+
+    // Перевіряємо, чи вже вигравав клієнт
+    window.onload = function() {
+        spawnFish();
+        if (localStorage.getItem('sk_discount_won') === 'true') {
+            document.getElementById('game-container').innerHTML = `
+                <div style="padding: 40px 20px; text-align: center;">
+                    <div style="font-size: 50px;">🏆</div>
+                    <h2 style="color: #27ae60;">Ви вже спіймали свій трофей!</h2>
+                    <p>Знижка 5% вже закріплена за вами. Перейдіть до каталогу, щоб зробити замовлення.</p>
+                    <button class="btn-buy" onclick="goToProducts()">Перейти до каталогу</button>
+                </div>
+            `;
+        }
+    }
+
+    function startGame() {
+        if (gameActive) return;
+        gameActive = true;
+        attempts = 3;
+        updateAttemptsUI();
+        
+        startBtn.style.display = 'none';
+        floatItem.style.display = 'block';
+        statusText.innerText = "Увага на поплавець...";
+        statusText.style.color = "#f39c12";
+
+        scheduleNextBite();
+    }
+
+    function scheduleNextBite() {
+        if (!gameActive || attempts <= 0) return;
+        
+        isBiting = false;
+        floatItem.classList.remove('biting');
+        
+        // Випадковий час до наступної покльовки (від 2 до 5 секунд)
+        const timeToBite = Math.floor(Math.random() * 3000) + 2000;
+        
+        nextBiteTimeout = setTimeout(() => {
+            triggerBite();
+        }, timeToBite);
+    }
+
+    function triggerBite() {
+        if (!gameActive) return;
+        
+        isBiting = true;
+        floatItem.classList.add('biting'); // Поплавок йде під воду
+        statusText.innerText = "КЛЮЄ! ПІДСІКАЙ!";
+        statusText.style.color = "#e74c3c";
+
+        // СКЛАДНІСТЬ ЗБІЛЬШЕНА: Риба тримає наживку лише від 0.3 до 0.45 секунди!
+        const biteDuration = Math.floor(Math.random() * 150) + 300;
+
+        biteTimer = setTimeout(() => {
+            if (isBiting && gameActive) {
+                // Якщо не встиг натиснути - риба відпустила
+                isBiting = false;
+                floatItem.classList.remove('biting');
+                statusText.innerText = "Зірвалась... Чекаємо далі.";
+                statusText.style.color = "#f39c12";
+                
+                // Мінус спроба за те, що проґавив
+                attempts--;
+                updateAttemptsUI();
+                
+                if (attempts > 0) {
+                    scheduleNextBite();
+                } else {
+                    gameOver();
+                }
+            }
+        }, biteDuration);
+    }
+
+    function catchFish() {
+        if (!gameActive) return;
+
+        if (isBiting) {
+            // Встиг! Перемога
+            gameActive = false;
+            clearTimeout(nextBiteTimeout);
+            clearTimeout(biteTimer);
+            
+            // Зберігаємо перемогу в пам'ять браузера
+            localStorage.setItem('sk_discount_won', 'true');
+            
+            document.getElementById('winModal').style.display = 'flex';
+        } else {
+            // Натиснув зарано (хибна підсечка)
+            attempts--;
+            updateAttemptsUI();
+            
+            // Візуальний ефект помилки
+            statusText.innerText = "Зарано! Не лякай рибу!";
+            statusText.style.color = "#c0392b";
+            
+            clearTimeout(nextBiteTimeout);
+            floatItem.style.display = 'none'; // Поплавок вискакує з води
+            
+            if (attempts > 0) {
+                setTimeout(() => {
+                    floatItem.style.display = 'block';
+                    statusText.innerText = "Увага на поплавець...";
+                    statusText.style.color = "#f39c12";
+                    scheduleNextBite();
+                }, 1500);
+            } else {
+                gameOver();
+            }
+        }
+    }
+
+    function updateAttemptsUI() {
+        let hearts = '';
+        for(let i=0; i<attempts; i++) hearts += '❤️ ';
+        for(let i=attempts; i<3; i++) hearts += '🖤 ';
+        attemptsText.innerHTML = hearts;
+    }
+
+    function gameOver() {
+        gameActive = false;
+        clearTimeout(nextBiteTimeout);
+        clearTimeout(biteTimer);
+        floatItem.style.display = 'none';
+        document.getElementById('loseModal').style.display = 'flex';
+    }
+
+    function goToProducts() {
+        window.location.href = 'products.html';
+    }
+</script>
+
+</body>
+</html>
