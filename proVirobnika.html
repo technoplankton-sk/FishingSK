@@ -20,7 +20,7 @@
     </script>
 
     <style>
-        /* --- ЗАГАЛЬНІ СТИЛІ ТА СТИЛІ ШАПКИ/МОДАЛОК З ГОЛОВНОЇ СТОРІНКИ --- */
+        /* --- ЗАГАЛЬНІ СТИЛІ ТА СТИЛІ ШАПКИ/МОДАЛОК --- */
         body {
             margin: 0;
             padding: 0;
@@ -85,7 +85,7 @@
             nav a { font-size: 12px; }
         }
 
-        /* --- СТИЛІ МОДАЛЬНИХ ВІКОН ТА КОШИКА --- */
+        /* --- СТИЛІ МОДАЛЬНИХ ВІКОН ТА КОШИКА (КЛОН) --- */
         .modal-bg {
             display: none;
             position: fixed;
@@ -102,23 +102,6 @@
         .contact-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px; font-size: 18px; padding-left: 20px; flex-wrap: wrap; }
         .contact-label { width: 90px; text-align: left; font-weight: bold; }
         .messenger-icon { width: 26px; height: 26px; vertical-align: middle; margin-left: 8px; cursor: pointer; }
-        .btn-main {
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
-            color: white;
-            border-radius: 10px;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-viber { background: #7360f2; }
-        .btn-catalog { background: #e67e22; }
-        .btn-main:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
         .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
@@ -141,10 +124,9 @@
         .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 25px; border-radius: 12px; font-size: 14px; font-weight: bold; z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px; border: 1px solid #333; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
 
-        /* --- СТИЛІ СТОРІНКИ "ПРО ВИРОБНИКА" (ВАШ КОД) --- */
-        /* Фонове зображення для сторінки/секції */
+        /* --- СТИЛІ СТОРІНКИ "ПРО ВИРОБНИКА" --- */
         .about-page-wrapper {
-            background-image: url('Images/5.jpg'); /* Виправлено шлях на відносний */
+            background-image: url('Images/5.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -155,7 +137,7 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 40px;
-            background-color: rgba(255, 255, 255, 0.92); /* Напівпрозорий білий фон для читабельності тексту */
+            background-color: rgba(255, 255, 255, 0.92);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -207,7 +189,6 @@
             display: block;
         }
 
-        /* Стилі для галереї з кількома фото */
         .about-image-gallery {
             flex: 1;
             min-width: 300px;
@@ -224,7 +205,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        /* Щоб третє, четверте і п'яте фото гарно лягали в сітку */
         .about-image-gallery img:nth-child(1) { grid-column: span 2; }
 
         .about-products {
@@ -258,24 +238,23 @@
 </head>
 <body>
 
-    <!-- ШАПКА САЙТУ -->
     <header>
         <div class="logo" style="display: flex; flex-direction: column;">
             <span>Технопланктон "Октябрьский" ( SK)</span>
             <span style="font-size: 12px; font-weight: normal; margin-top: 3px;">Офіційний сайт Олега Карпова</span>
         </div>
         <nav>
-            <a href="index.html"><img src="home-button_5974636.png" class="nav-icon">Головна</a>
-            <a href="products.html"><img src="vsitovari(catalog).png" class="nav-icon">Усі товари</a>
-            <a href="galery.html"><img src="galerybutton.png" class="nav-icon">Галерея</a>
-            <a href="vidguk.html"><img src="otzivi.png" class="nav-icon">Відгуки</a>
-            <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon">Контакти</a>
-            <a href="proVirobnika.html"><img src="Images/proVirobnika/unnamed.jpg" class="nav-icon">Про виробника</a>
+            <a href="index.html"><img src="home-button_5974636.png" class="nav-icon" onerror="this.style.display='none'">Головна</a>
+            <a href="products.html"><img src="vsitovari(catalog).png" class="nav-icon" onerror="this.style.display='none'">Усі товари</a>
+            <a href="galery.html"><img src="galerybutton.png" class="nav-icon" onerror="this.style.display='none'">Галерея</a>
+            <a href="vidguk.html"><img src="otzivi.png" class="nav-icon" onerror="this.style.display='none'">Відгуки</a>
+            <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon" onerror="this.style.display='none'">Контакти</a>
+            <a href="proVirobnika.html" style="color: #e67e22;"><img src="Images/proVirobnika/unnamed.jpg" class="nav-icon" onerror="this.style.display='none'">Про виробника</a>
+            <a href="game.html" style="color: #f1c40f;"><img src="Images/poplGame.png" class="nav-icon" onerror="this.src='Images/poplavki/poplav.jpg'">Гра-знижка</a>
             <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
         </nav>
     </header>
 
-    <!-- КОНТЕНТ СТОРІНКИ "ПРО ВИРОБНИКА" -->
     <div class="about-page-wrapper">
         <section class="about-manufacturer">
             <h1>Про виробника: Історія створення ТМ «SK»</h1>
@@ -302,10 +281,10 @@
                 </div>
 
                 <div class="about-text">
-                    <h2>Народження легендарного технопланктону «Октябрський» (SK)</h2>
+                    <h2>Народження легендарного технопланктону «Октябрьский» (SK)</h2>
                     <p>На території мого присадибного господарства був невеликий декоративний ставок. Саме там я проводив сотні годин, спостерігаючи за поведінкою коропових видів риб: коропа, товстолоба та ляща. Я прискіпливо вивчав їхню кормову базу, харчові звички та реакцію на різноманітні інгредієнти у воді.</p>
 
-                    <p>Ці спостереження, помножені на науковий іхтіологічний підхід, лягли в основу створення нашого фірмового продукту — <strong>технопланктон «Октябрський» (SK)</strong>. Його унікальний авторський склад не має аналогів, адже він створений рибоводом для риби. Численні польові тести довели беззаперечний факт: наш технопланктон показує феноменальні результати, особливо під час цілеспрямованого полювання на трофейного товстолоба.</p>
+                    <p>Ці спостереження, помножені на науковий іхтіологічний підхід, лягли в основу створення нашого фірмового продукту — <strong>технопланктон «Октябрьский» (SK)</strong>. Його унікальний авторський склад не має аналогів, адже він створений рибоводом для риби. Численні польові тести довели беззаперечний факт: наш технопланктон показує феноменальні результати, особливо під час цілеспрямованого полювання на трофейного товстолоба.</p>
                 </div>
             </div>
 
@@ -323,7 +302,7 @@
         </section>
     </div>
 
-    <!-- МОДАЛЬНІ ВІКНА ТА КОШИК (З ГОЛОВНОЇ СТОРІНКИ) -->
+    <!-- МОДАЛЬНІ ВІКНА ТА КОШИК (КЛОН) -->
     <div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
@@ -352,6 +331,7 @@
             <div id="cart-items-list"></div>
             <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
             <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
+            <div id="discount-msg" style="color: #27ae60; font-weight: bold; margin-bottom: 10px; display: none;">🎉 Застосовано знижку 5% за перемогу в грі!</div>
             
             <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
                 <label><span class="star-red">*</span> Ваше ім'я:</label>
@@ -401,7 +381,7 @@
                     Україна, м. Миколаїв, ринок "Колос", 134й контейнер (біля магазину "Канцелярский мир").
                 </div>
             </div>
-            <button class="btn-main btn-viber" style="margin-top:20px; width:100%; justify-content:center;" onclick="closeModal('contactModal')">Закрити</button>
+            <button class="btn-submit-order" style="margin-top:20px; width:100%; justify-content:center; background:#e67e22;" onclick="closeModal('contactModal')">Закрити</button>
         </div>
     </div>
 
@@ -410,7 +390,7 @@
             <div style="font-size: 50px; color: #27ae60; margin-bottom: 20px;">✅</div>
             <h2 style="color: #27ae60; margin-bottom: 15px;">Дякуємо!</h2>
             <p style="font-size: 16px; line-height: 1.5; color: #333;">Ваше замовлення прийнято.<br>Ми зв'яжемось з Вами у найближчий час.</p>
-            <button class="btn-main btn-catalog" style="margin-top: 25px; width: 150px; display: inline-block;" onclick="closeModal('successOrderModal')">ОК</button>
+            <button class="btn-submit-order" style="margin-top: 25px; width: 150px; display: inline-block; background: #e67e22;" onclick="closeModal('successOrderModal')">ОК</button>
         </div>
     </div>
 
@@ -516,7 +496,20 @@
                     </div>`; 
                 });
             }
-            document.getElementById('cart-total-sum').innerText = total;
+            
+            let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+            let totalDisplay = document.getElementById('cart-total-sum');
+            let discountMsg = document.getElementById('discount-msg');
+
+            if (hasDiscount && total > 0) {
+                let discountedTotal = Math.round(total * 0.95);
+                totalDisplay.innerHTML = `<span style="text-decoration: line-through; color: #7f8c8d; font-size: 14px;">${total}</span> ${discountedTotal}`;
+                if(discountMsg) discountMsg.style.display = 'block';
+            } else {
+                totalDisplay.innerHTML = total;
+                if(discountMsg) discountMsg.style.display = 'none';
+            }
+
             openModal('cartModal');
         }
 
@@ -528,20 +521,27 @@
             const city = document.getElementById('client-city').value.trim();
             const address = document.getElementById('client-address').value.trim();
             const payment = document.getElementById('payment-method').value;
-            const total = parseInt(document.getElementById('cart-total-sum').innerText);
+            
+            let calcTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+            let finalTotal = hasDiscount ? Math.round(calcTotal * 0.95) : calcTotal;
 
             if (cart.length === 0) { showToast("Кошик порожній!", "#c0392b"); return; }
             if (!name || phone.length < 13 || !shipping || !city || !address) {
                 showToast("Заповніть усі обов'язкові поля!", "#e67e22");
                 return;
             }
-            if (total < 400) {
+            if (calcTotal < 400) {
                 showToast("Мінімальне замовлення 400 грн!", "#c0392b");
                 return;
             }
 
             let details = cart.map(i => `${i.name} (${i.qty} шт.)`).join(', ');
             
+            if (hasDiscount) {
+                details += `\n\n-------------------------\n🎯 УВАГА: Клієнт чесно виграв у міні-гру "Спіймай товстолоба"!\nСума без знижки: ${calcTotal} грн.\nСума до оплати зі знижкою 5%: ${finalTotal} грн.\n-------------------------`;
+            }
+
             const templateParams = {
                 from_name: name,
                 user_phone: phone,
@@ -549,12 +549,13 @@
                 shipping_method: shipping,
                 payment_method: payment,
                 order_details: details,
-                total_sum: total
+                total_sum: finalTotal
             };
 
             emailjs.send("service_2xxpqzw", "template_dkcry58", templateParams)
             .then(() => { 
                 recordOrder();
+                if (hasDiscount) localStorage.removeItem('sk_discount_won');
                 cart = []; updateCartUI(); closeModal('cartModal'); 
                 openModal('successOrderModal');
             }).catch(() => showToast("Помилка відправки!", "#c0392b"));
@@ -569,7 +570,6 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function handleBgClick(e) { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }
 
-        // Покращене виправлення переходів для мобільних
         document.addEventListener("click", function(e) {
             const target = e.target.closest("a");
             if (target && target.getAttribute("href") && target.getAttribute("href").includes("#")) {
