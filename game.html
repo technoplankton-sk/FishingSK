@@ -147,17 +147,17 @@
             left: 50%;
             top: 30%;
             transform: translateX(-50%);
-            width: 30px;
-            height: 120px;
+            /* ЗБІЛЬШЕНО РОЗМІР ПОПЛАВЦЯ */
+            width: 50px;
+            height: 180px;
             background: url('Images/poplGame.png') no-repeat center;
             background-size: contain;
             cursor: pointer;
             transition: top 0.1s ease-out;
-            display: none; /* Приховано до старту */
+            display: none; 
             z-index: 10;
         }
 
-        /* Анімація спокійного погойдування */
         .bobbing {
             animation: bob 3s infinite ease-in-out;
         }
@@ -166,19 +166,17 @@
             50% { transform: translate(-50%, 15px) rotate(3deg); }
         }
 
-        /* Анімація покльовки (йде під воду) */
         .biting {
-            top: 60% !important; /* Різко вниз */
+            top: 55% !important; 
             transform: translateX(-50%) rotate(-10deg) !important;
             transition: top 0.1s cubic-bezier(0.1, 0.9, 0.2, 1) !important;
         }
 
-        /* СТИЛІ ДЛЯ РИБОК */
         .fish {
             position: absolute;
             white-space: nowrap;
             user-select: none;
-            pointer-events: none; /* Щоб не заважали клікати на поплавець */
+            pointer-events: none;
             z-index: 1;
         }
         .fish-left {
@@ -215,6 +213,7 @@
             header { flex-direction: column; padding: 10px; }
             nav { flex-wrap: wrap; justify-content: center; }
             #water-area { height: 250px; }
+            #float-item { width: 45px; height: 160px; }
         }
     </style>
 </head>
@@ -256,7 +255,6 @@
     </div>
 </div>
 
-<!-- Модальне вікно: Перемога -->
 <div id="winModal" class="modal-bg">
     <div class="modal-content">
         <div style="font-size: 50px; margin-bottom: 10px;">🏆</div>
@@ -270,7 +268,6 @@
     </div>
 </div>
 
-<!-- Модальне вікно: Програш -->
 <div id="loseModal" class="modal-bg">
     <div class="modal-content">
         <div style="font-size: 50px; margin-bottom: 10px;">🐟💨</div>
@@ -304,23 +301,15 @@
             let isRight = Math.random() > 0.5;
             fish.className = 'fish ' + (isRight ? 'fish-right' : 'fish-left');
             fish.innerText = fishTypes[Math.floor(Math.random() * fishTypes.length)];
-            
-            // Випадкова глибина (від 20% до 85% висоти водойми)
             fish.style.top = (Math.random() * 65 + 20) + '%'; 
-            // Випадковий розмір рибок
             fish.style.fontSize = (Math.random() * 20 + 15) + 'px'; 
-            // Випадкова прозорість для ефекту глибини
             fish.style.opacity = (Math.random() * 0.4 + 0.1); 
-            // Випадкова швидкість плавання (від 5 до 15 секунд)
             fish.style.animationDuration = (Math.random() * 10 + 5) + 's'; 
-            // Випадковий стартовий час, щоб вони не пливли одночасно
             fish.style.animationDelay = '-' + (Math.random() * 10) + 's'; 
-            
             water.appendChild(fish);
         }
     }
 
-    // Перевіряємо, чи вже вигравав клієнт
     window.onload = function() {
         spawnFish();
         if (localStorage.getItem('sk_discount_won') === 'true') {
@@ -355,7 +344,6 @@
         isBiting = false;
         floatItem.classList.remove('biting');
         
-        // Випадковий час до наступної покльовки (від 2 до 5 секунд)
         const timeToBite = Math.floor(Math.random() * 3000) + 2000;
         
         nextBiteTimeout = setTimeout(() => {
@@ -367,22 +355,20 @@
         if (!gameActive) return;
         
         isBiting = true;
-        floatItem.classList.add('biting'); // Поплавок йде під воду
+        floatItem.classList.add('biting'); 
         statusText.innerText = "КЛЮЄ! ПІДСІКАЙ!";
         statusText.style.color = "#e74c3c";
 
-        // СКЛАДНІСТЬ ЗБІЛЬШЕНА: Риба тримає наживку лише від 0.3 до 0.45 секунди!
-        const biteDuration = Math.floor(Math.random() * 150) + 300;
+        // Трохи збільшено час на реакцію для комфортної гри (400-600мс)
+        const biteDuration = Math.floor(Math.random() * 200) + 400;
 
         biteTimer = setTimeout(() => {
             if (isBiting && gameActive) {
-                // Якщо не встиг натиснути - риба відпустила
                 isBiting = false;
                 floatItem.classList.remove('biting');
                 statusText.innerText = "Зірвалась... Чекаємо далі.";
                 statusText.style.color = "#f39c12";
                 
-                // Мінус спроба за те, що проґавив
                 attempts--;
                 updateAttemptsUI();
                 
@@ -399,33 +385,29 @@
         if (!gameActive) return;
 
         if (isBiting) {
-            // Встиг! Перемога
             gameActive = false;
             clearTimeout(nextBiteTimeout);
             clearTimeout(biteTimer);
-            
-            // Зберігаємо перемогу в пам'ять браузера
             localStorage.setItem('sk_discount_won', 'true');
-            
             document.getElementById('winModal').style.display = 'flex';
         } else {
-            // Натиснув зарано (хибна підсечка)
             attempts--;
             updateAttemptsUI();
             
-            // Візуальний ефект помилки
             statusText.innerText = "Зарано! Не лякай рибу!";
             statusText.style.color = "#c0392b";
             
             clearTimeout(nextBiteTimeout);
-            floatItem.style.display = 'none'; // Поплавок вискакує з води
+            floatItem.style.display = 'none'; 
             
             if (attempts > 0) {
                 setTimeout(() => {
-                    floatItem.style.display = 'block';
-                    statusText.innerText = "Увага на поплавець...";
-                    statusText.style.color = "#f39c12";
-                    scheduleNextBite();
+                    if (gameActive) {
+                        floatItem.style.display = 'block';
+                        statusText.innerText = "Увага на поплавець...";
+                        statusText.style.color = "#f39c12";
+                        scheduleNextBite();
+                    }
                 }, 1500);
             } else {
                 gameOver();
@@ -435,6 +417,7 @@
 
     function updateAttemptsUI() {
         let hearts = '';
+        // Відображаємо актуальну кількість спроб
         for(let i=0; i<attempts; i++) hearts += '❤️ ';
         for(let i=attempts; i<3; i++) hearts += '🖤 ';
         attemptsText.innerHTML = hearts;
@@ -445,7 +428,10 @@
         clearTimeout(nextBiteTimeout);
         clearTimeout(biteTimer);
         floatItem.style.display = 'none';
-        document.getElementById('loseModal').style.display = 'flex';
+        // Перевірка, щоб модалка програшу з'являлася тільки коли спроби ДІЙСНО 0
+        if (attempts <= 0) {
+            document.getElementById('loseModal').style.display = 'flex';
+        }
     }
 
     function goToProducts() {
