@@ -712,6 +712,7 @@
         <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon">Контакти</a>
         <a href="proVirobnika.html"><img src="Images/proVirobnika/unnamed.jpg" class="nav-icon">Про виробника</a>
         <a href="vidguk.html" class="mobile-only-review"><img src="otzivi.png" class="nav-icon">Відгуки</a>
+        <a href="game.html" style="color: #f1c40f;"><img src="Images/poplGame.png" class="nav-icon" onerror="this.src='Images/poplavki/poplav.jpg'">Гра-знижка</a>
         <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
     </nav>
 </header>
@@ -720,6 +721,7 @@
     <aside class="sidebar">
         <h3>Навігація:</h3>
         <ul>
+            <li><a href="game.html" style="color: #e67e22; font-weight: 900;">🎮 Виграй знижку!</a></li>
             <li><a href="#w80">📦 Технопланктон 80г</a></li>
             <li><a href="#w110">📦 Технопланктон 110г</a></li>
             <li><a href="#w140">📦 Технопланктон 140г</a></li>
@@ -804,6 +806,7 @@
         <div id="cart-items-list"></div>
         <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
         <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
+        <div id="discount-msg" style="color: #27ae60; font-weight: bold; margin-bottom: 10px; display: none;">🎉 Застосовано знижку 5% за перемогу в грі!</div>
         
         <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
             <label><span class="star-red">*</span> Ваше ім'я:</label>
@@ -968,6 +971,8 @@
         const list = document.getElementById('cart-items-list');
         list.innerHTML = '<p>Кошик порожній</p>';
         document.getElementById('cart-total-sum').innerText = 0;
+        let dMsg = document.getElementById('discount-msg');
+        if(dMsg) dMsg.style.display = 'none';
         document.getElementById('cart-controls').style.display = 'none';
         
         let toast = document.getElementById('clear-toast-inner');
@@ -1016,7 +1021,20 @@
                 </div>`; 
             });
         }
-        document.getElementById('cart-total-sum').innerText = total;
+        
+        let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+        let totalDisplay = document.getElementById('cart-total-sum');
+        let discountMsg = document.getElementById('discount-msg');
+
+        if (hasDiscount && total > 0) {
+            let discountedTotal = Math.round(total * 0.95);
+            totalDisplay.innerHTML = `<span style="text-decoration: line-through; color: #7f8c8d; font-size: 14px;">${total}</span> ${discountedTotal}`;
+            if(discountMsg) discountMsg.style.display = 'block';
+        } else {
+            totalDisplay.innerHTML = total;
+            if(discountMsg) discountMsg.style.display = 'none';
+        }
+
         openModal('cartModal');
     }
 
@@ -1028,23 +1046,33 @@
         const city = document.getElementById('client-city').value.trim();
         const address = document.getElementById('client-address').value.trim();
         const payment = document.getElementById('payment-method').value;
-        const total = document.getElementById('cart-total-sum').innerText;
+        
+        let calcTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+        let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+        let finalTotal = hasDiscount ? Math.round(calcTotal * 0.95) : calcTotal;
+
         const submitBtn = document.getElementById('submit-order-btn');
         if (!name || phone.length < 13 || !shipping || !city || !address) {
             showPopup("Заповніть усі обов'язкові поля!", submitBtn, true);
             return;
         }
-        if (parseInt(total) < 400) {
+        if (calcTotal < 400) {
             showPopup("Мінімум 400 грн!", submitBtn, true);
             return;
         }
 
         let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення: ${address}\nОплата: ${payment}\n\nТовари:\n`;
         cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
+        
+        if (hasDiscount) {
+            details += `\n-------------------------\n🎯 УВАГА: Клієнт чесно виграв у міні-гру "Спіймай товстолоба"!\nСума без знижки: ${calcTotal} грн.\nСума до оплати зі знижкою 5%: ${finalTotal} грн.\n-------------------------`;
+        }
+
         emailjs.send("service_2xxpqzw", "template_dkcry58", {
-            from_name: name, order_details: details, total_sum: total
+            from_name: name, order_details: details, total_sum: finalTotal
         }).then(() => { 
             recordOrder();
+            if (hasDiscount) localStorage.removeItem('sk_discount_won');
             cart = []; updateCartUI(); closeModal('cartModal'); 
             openModal('successOrderModal'); 
         }).catch(() => showPopup("Помилка відправки!", submitBtn, true));
