@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    
     <link rel="icon" type="image/png" href="logo.png">
     <title>Карта водойм Миколаївщини - Технопланктон SK</title>
     
@@ -131,7 +133,7 @@
             height: 60vh;
             min-height: 400px;
             border-radius: 15px;
-            z-index: 1; /* Щоб не перекривало модалки */
+            z-index: 1; 
         }
 
         /* Стилі для спливаючих вікон на карті */
@@ -140,12 +142,15 @@
             background: #fff;
             color: #333;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 0;
+            overflow: hidden;
         }
         .leaflet-popup-content {
-            margin: 15px;
+            margin: 0;
+            padding: 15px;
             text-align: center;
             font-family: Arial, sans-serif;
-            width: 220px !important; /* Фіксована ширина для гарного відображення фото */
+            width: 240px !important; 
         }
         .leaflet-popup-content h3 {
             margin: 0 0 10px 0;
@@ -153,12 +158,15 @@
             font-size: 16px;
         }
         .spot-image {
+            display: block; /* ВИПРАВЛЕНО: для центрування */
+            margin: 0 auto 10px auto; /* ВИПРАВЛЕНО: автоматичні відступи з боків */
             width: 100%;
-            height: 130px;
+            max-width: 210px; /* Додано для кращого вигляду всередині вікна */
+            height: 140px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 10px;
             border: 1px solid #ddd;
+            background: #f4f4f4; 
         }
         .spot-rating {
             font-size: 16px;
@@ -239,7 +247,7 @@
     
     <div class="seo-text-visible">
         <h1>Найкращі місця для лову товстолоба</h1>
-        <p>На цій карті ми зібрали популярні водойми Миколаївської області та околиць, де наш технопланктон "Октябрьский" (SK) показує найвищі результати. Натискайте на маркери, щоб побачити рейтинг місця, фотографії та рекомендації щодо вибору прикормки!</p>
+        <p>На цій карті ми зібрали популярні водойми Миколаївської області та околиць, де наш технопланктон "Октябрьский" (SK) показує найвищі результати. Натискайте на маркери, щоб побачити реальні фотографії, рейтинг місця та рекомендації щодо вибору прикормки!</p>
     </div>
 
     <div class="map-container-wrapper">
@@ -247,7 +255,7 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНІ ВІКНА ТА КОШИК (КЛОН) -->
+<!-- МОДАЛЬНІ ВІКНА ТА КОШИК -->
 <div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
@@ -325,56 +333,54 @@
 <script>
     // === ЛОГІКА КАРТИ (LEAFLET.JS) ===
     document.addEventListener("DOMContentLoaded", function() {
-        // Координати центру Миколаївської області
         var map = L.map('fishing-map').setView([47.4, 31.8], 9);
 
-        // Додаємо шар карти від OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
         }).addTo(map);
 
-        // База даних місць
-        // Якщо захочете змінити фото - міняйте посилання у полі `img: "..."`
+        // БАЗА ДАНИХ МІСЦЬ З ЛОКАЛЬНИМИ ФОТО (Images/map/)
+        // Шляхи та назви файлів приведені у відповідність до вашої папки E:\My-Site\Images\map
         var fishingSpots = [
             {
                 name: "с. Семенівка (Арбузинський р-н)",
                 lat: 47.9333,
                 lng: 31.1167,
                 rating: 5,
-                img: "https://images.unsplash.com/photo-1544988484-912a5dbd4885?auto=format&fit=crop&q=80&w=400",
-                desc: "Одне з найкращих місць для лову трофейного товстолоба! Найкраще працює технопланктон «Мед» та «Полуниця»."
+                img: "Images/map/semenovka.jpg",
+                desc: "Одне з найкращих місць для лову трофейного товстолоба! Глибина чудова. Найкраще працює технопланктон «Мед» та «Полуниця»."
             },
             {
                 name: "с. Щербані (Вознесенський р-н)",
                 lat: 47.5320,
                 lng: 31.7510,
                 rating: 4,
-                img: "https://images.unsplash.com/photo-1590050858882-62a26fa32d16?auto=format&fit=crop&q=80&w=400",
-                desc: "Відмінний ставок з хорошим під'їздом. Товстолоб віддає перевагу солодким ароматам. Рекомендуємо «Пряжене молоко»."
+                img: "Images/map/sherbani.jpg",
+                desc: "Відмінний ставок з хорошим під'їздом. Товстолоб тут віддає перевагу солодким ароматам. Рекомендуємо «Пряжене молоко»."
             },
             {
                 name: "р. Південний Буг (Нова Одеса)",
                 lat: 47.3050,
                 lng: 31.7850,
                 rating: 3,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Southern_Bug_in_Mykolaiv_Oblast.jpg/800px-Southern_Bug_in_Mykolaiv_Oblast.jpg",
-                desc: "Річкова ловля. Обов'язково використовуйте великі борильця на 140г («Оригінал» або «Мед»), щоб вони повільніше розмивалися."
+                img: "Images/map/novaOdesa.jpg",
+                desc: "Річкова ловля. Обов'язково використовуйте великі борильця на 140г («Макуха» або «Мед»), щоб вони повільніше розмивалися на течії."
             },
             {
                 name: "Софіївське водосховище",
                 lat: 47.6810,
                 lng: 32.3350,
                 rating: 5,
-                img: "https://images.unsplash.com/photo-1447012547146-5ddf2fcf15e6?auto=format&fit=crop&q=80&w=400",
-                desc: "Чудове місце для тривалих сесій. Найкраще працює технопланктон «Пряжене молоко» та «Мед»."
+                img: "Images/map/SofiyivskeVodoshovishe.jpg",
+                desc: "Велика вода — велика риба. Чудове місце для тривалих сесій. Найкраще працює технопланктон «Пряжене молоко» та «Мед»."
             },
             {
                 name: "м. Миколаїв (р. Інгул)",
                 lat: 47.0160,
                 lng: 32.0300,
                 rating: 4,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Inhul_river_in_Mykolaiv.jpg/800px-Inhul_river_in_Mykolaiv.jpg",
+                img: "Images/map/ingulNikolaev.jpg",
                 desc: "Хороші результати прямо в місті. Риба перебірлива, беріть із собою «Полуницю» та «Пряжене молоко»."
             },
             {
@@ -382,7 +388,7 @@
                 lat: 47.6975,
                 lng: 31.2658,
                 rating: 5,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Oleksandrivske_Reservoir.jpg/800px-Oleksandrivske_Reservoir.jpg",
+                img: "Images/map/oleksandrivskeVodoshovishe.jpg",
                 desc: "Тут ловлять справжніх гігантів. Рекомендуємо використовувати борильця 110г-140г зі смаком «Полуниця»."
             },
             {
@@ -390,7 +396,7 @@
                 lat: 47.7167,
                 lng: 32.3167,
                 rating: 4,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Pelageivka.jpg/800px-Pelageivka.jpg",
+                img: "Images/map/pelageevka.jpg",
                 desc: "Мальовниче місце біля монастиря. Товстолоб часто стоїть на руслах. Добре показує себе «Полуниця» та «Мед»."
             },
             {
@@ -398,15 +404,15 @@
                 lat: 47.0850,
                 lng: 31.8840,
                 rating: 4,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Southern_Bug_near_Migiya.jpg/800px-Southern_Bug_near_Migiya.jpg",
-                desc: "Широка річка, буває сильна течія. Рекомендуємо важкий планктон «Оригінал» (140г) та надійні снасті."
+                img: "Images/map/balovne.jpg",
+                desc: "Широка річка, буває сильна течія. Рекомендуємо важкий планктон «Макуха» (140г) та надійні снасті."
             },
             {
                 name: "с. Кашперо-Миколаївка (ставки)",
                 lat: 47.3820,
                 lng: 32.1850,
                 rating: 5,
-                img: "https://images.unsplash.com/photo-1550244795-0219665f80b5?auto=format&fit=crop&q=80&w=400",
+                img: "Images/map/kashperoMikolaivka.jpg",
                 desc: "Популярні водойми. Риба чудово реагує на солодкі та вершкові аромати, особливо «Пряжене молоко»."
             },
             {
@@ -414,48 +420,48 @@
                 lat: 47.0340,
                 lng: 32.1020,
                 rating: 3,
-                img: "https://images.unsplash.com/photo-1605721665406-81cf803d2744?auto=format&fit=crop&q=80&w=400",
-                desc: "Зручно для швидких виїздів з Миколаєва. Товстолоб тут любить класику — «Мед» та «Оригінал»."
+                img: "Images/map/zaichivske.jpg",
+                desc: "Зручно для швидких виїздів з Миколаєва. Товстолоб тут любить класику — «Мед» та «Полуниця»."
             },
             {
                 name: "с. Гур'ївка (р. Південний Буг)",
                 lat: 47.1670,
                 lng: 31.8520,
                 rating: 4,
-                img: "https://images.unsplash.com/photo-1520625340632-159e66c6b2ba?auto=format&fit=crop&q=80&w=400",
-                desc: "Гарні глибини та рельєф дна. Часто трапляються трофейні екземпляри. Варто пробувати «Мед» та «Оригінал»."
+                img: "Images/map/gurivka.jpg",
+                desc: "Гарні глибини та рельєф дна. Часто трапляються трофейні екземпляри. Варто пробувати «Мед» та «Пряжене молоко»."
             },
             {
                 name: "м. Вознесенськ (р. Південний Буг)",
                 lat: 47.5615,
                 lng: 31.3135,
                 rating: 4,
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Southern_Bug_River_in_Voznesensk.jpg/800px-Southern_Bug_River_in_Voznesensk.jpg",
-                desc: "Класична річкова ловля. Через течію планктон вимивається швидше, беріть найбільші бочонки «Оригінал»."
+                img: "Images/map/VoznesenskPivdenniyBug.jpg",
+                desc: "Класична річкова ловля. Через течію планктон вимивається швидше, беріть найбільші борильця «Пряжене молоко» або «Макуха»."
             },
             {
                 name: "с. Кір'яківка (ставки)",
                 lat: 47.2500,
                 lng: 31.7800,
                 rating: 4,
-                img: "https://images.unsplash.com/photo-1516214104703-d25078101689?auto=format&fit=crop&q=80&w=400",
+                img: "Images/map/kyriakivka.jpg",
                 desc: "Спокійне місце з хорошим підходом до води. Місцевий товстолоб добре реагує на аромат «Полуниця»."
-            },
-            {
-                name: "Щасливське водосховище",
-                lat: 47.0940,
-                lng: 31.8150,
-                rating: 5,
-                img: "https://images.unsplash.com/photo-1463131718872-47209cb6f4df?auto=format&fit=crop&q=80&w=400",
-                desc: "Велика акваторія, відмінно підходить для полювання на трофеїв зі смаком «Мед» та «Пряжене молоко»."
             },
             {
                 name: "с. Христофорівка (р. Інгул)",
                 lat: 47.2340,
                 lng: 32.2210,
                 rating: 4,
-                img: "https://images.unsplash.com/photo-1544988484-912a5dbd4885?auto=format&fit=crop&q=80&w=400",
-                desc: "Цікавий рельєф дна біля очерету. Для приваблення риби сюди радимо брати «Оригінал» (макуху)."
+                img: "Images/map/hristoforivka.jpg",
+                desc: "Цікавий рельєф дна біля очерету. Для приваблення риби сюди радимо брати «Макуху»."
+            },
+            {
+                name: "с. Петрово-Солониха",
+                lat: 47.1024,
+                lng: 31.7856,
+                rating: 5,
+                img: "Images/map/petrovoSoloniha.jpg",
+                desc: "Чудова водойма поблизу Миколаєва. Товстолоб тут часто ходить зграями. Рекомендуємо «Мед» та «Пряжене молоко»."
             }
         ];
 
@@ -471,11 +477,10 @@
         fishingSpots.forEach(function(spot) {
             var starsHtml = '⭐'.repeat(spot.rating) + '✰'.repeat(5 - spot.rating);
             
-            // HTML для спливаючого вікна з фотографією
             var popupContent = `
                 <div class="leaflet-popup-content">
                     <h3>${spot.name}</h3>
-                    <img src="${spot.img}" class="spot-image" alt="${spot.name}">
+                    <img src="${spot.img}" class="spot-image" alt="${spot.name}" onload="this.parentNode.parentNode.parentNode._update && this.parentNode.parentNode.parentNode._update()" onerror="this.onerror=null; this.src='Images/5.jpg';">
                     <div class="spot-rating">${starsHtml}</div>
                     <p class="spot-desc">${spot.desc}</p>
                 </div>
@@ -487,7 +492,7 @@
         });
     });
 
-    // === ЛОГІКА КОШИКА ТА МОДАЛОК (КЛОН З ІНШИХ СТОРІНОК) ===
+    // === ЛОГІКА КОШИКА ТА МОДАЛОК ===
     let cart = JSON.parse(localStorage.getItem('fishingCart')) || [];
 
     function showToast(msg, color = "#27ae60") {
