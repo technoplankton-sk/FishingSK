@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>Карта водойм Миколаївщини - Технопланктон SK</title>
+    
+    <!-- Підключення стилів та скриптів для карти Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("EIuYN1VMmFHd5X94Y"); 
+        })();
+    </script>
+
+    <style>
+        /* БАЗОВІ СТИЛІ З ВАШОГО САЙТУ */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+            background: url('Images/5.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: white; 
+            min-height: 100vh; 
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 50px; 
+            background: #000000; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1001; 
+        }
+
+        .logo { font-size: 20px; font-weight: bold; }
+
+        nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-size: 14px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+        }
+        nav a:hover { color: #e67e22; }
+        .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
+
+        .cart-btn-header {
+            background: #e67e22;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+            color: white;
+        }
+        #cart-count {
+            background: #c0392b;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .main-layout { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            padding: 30px 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+
+        .main-title { 
+            background: white; 
+            color: #1a1a1a; 
+            display: inline-block; 
+            padding: 10px 40px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 24px; 
+            margin-bottom: 25px; 
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .seo-text-visible { 
+            background: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(5px); 
+            color: #ffffff; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-bottom: 25px; 
+            text-align: center; 
+            line-height: 1.6; 
+            border: 1px solid rgba(230, 126, 34, 0.4); 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .seo-text-visible h1 { font-size: 22px; margin-top: 0; color: #e67e22; }
+
+        /* СТИЛІ КАРТИ */
+        .map-container-wrapper {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #fishing-map {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            border-radius: 15px;
+            z-index: 1; /* Щоб не перекривало модалки */
+        }
+
+        /* Стилі для спливаючих вікон на карті */
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            background: #fff;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .leaflet-popup-content {
+            margin: 15px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            width: 220px !important; /* Фіксована ширина для гарного відображення фото */
+        }
+        .leaflet-popup-content h3 {
+            margin: 0 0 10px 0;
+            color: #e67e22;
+            font-size: 16px;
+        }
+        .spot-image {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+        .spot-rating {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+        .spot-desc {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #555;
+            margin: 0;
+        }
+
+        /* СТИЛІ МОДАЛЬНИХ ВІКОН ТА КОШИКА */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center; align-items: center; padding: 10px; box-sizing: border-box;
+        }
+        .modal-content {
+            background: white; padding: 25px; border-radius: 20px;
+            width: 100%; max-width: 500px; text-align: center; color: #333;
+            position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .contact-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px; font-size: 18px; padding-left: 20px; flex-wrap: wrap; }
+        .contact-label { width: 90px; text-align: left; font-weight: bold; }
+        .messenger-icon { width: 26px; height: 26px; vertical-align: middle; margin-left: 8px; cursor: pointer; }
+
+        .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
+        .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; gap: 10px; flex-wrap: wrap; }
+        .qty-controls { display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 4px 8px; border-radius: 6px; }
+        .qty-btn { background: #000000; color: white; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .remove-item { color: #c0392b; cursor: pointer; font-size: 18px; margin-left: 10px; }
+        .clear-cart-btn { background: none; border: 1px solid #c0392b; color: #c0392b; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-top: 10px; font-weight: bold; }
+        .cart-input, .cart-select { width: 100%; padding: 10px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        .star-red { color: red; font-weight: bold; }
+        .btn-submit-order { background: #000000; color: white; font-size: 16px; margin-top: 10px; padding: 15px; border: 1px solid #fff; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-submit-order:disabled { background: #7f8c8d; cursor: not-allowed; }
+        
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 25px; border-radius: 12px; font-size: 14px; font-weight: bold; z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px; border: 1px solid #333; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 10px; }
+            nav { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .logo { font-size: 18px; margin-bottom: 5px; text-align: center; }
+            .main-title { font-size: 20px; padding: 10px 20px; }
+            #fishing-map { height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" style="display: flex; flex-direction: column;">
+        <span>Технопланктон "Октябрьский" ( SK)</span>
+        <span style="font-size: 12px; font-weight: normal; margin-top: 3px;">Офіційний сайт Олега Карпова</span>
+    </div>
+    <nav>
+        <a href="index.html"><img src="home-button_5974636.png" class="nav-icon" onerror="this.style.display='none'">Головна</a>
+        <a href="products.html"><img src="vsitovari(catalog).png" class="nav-icon" onerror="this.style.display='none'">Усі товари</a>
+        <a href="galery.html"><img src="galerybutton.png" class="nav-icon" onerror="this.style.display='none'">Галерея</a>
+        <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon" onerror="this.style.display='none'">Контакти</a>
+        <a href="proVirobnika.html"><img src="Images/proVirobnika/unnamed.jpg" class="nav-icon" onerror="this.style.display='none'">Про виробника</a>
+        <a href="map.html" style="color: #e67e22;">🗺️ Карта водойм</a>
+        <a href="game.html" style="color: #f1c40f;"><img src="Images/poplGame.png" class="nav-icon" onerror="this.style.display='none'">Гра-знижка</a>
+        <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
+    </nav>
+</header>
+
+<div class="main-layout">
+    <div class="main-title">🗺️ Інтерактивна карта водойм</div>
+    
+    <div class="seo-text-visible">
+        <h1>Найкращі місця для лову товстолоба</h1>
+        <p>На цій карті ми зібрали популярні водойми Миколаївської області та околиць, де наш технопланктон "Октябрьский" (SK) показує найвищі результати. Натискайте на маркери, щоб побачити рейтинг місця, фотографії та рекомендації щодо вибору прикормки!</p>
+    </div>
+
+    <div class="map-container-wrapper">
+        <div id="fishing-map"></div>
+    </div>
+</div>
+
+<!-- МОДАЛЬНІ ВІКНА ТА КОШИК (КЛОН) -->
+<div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
+        <div class="shipping-info-banner">
+            🚚 <b>Замовлення відправляються протягом 24 годин:</b><br>
+            Нова Пошта, УкрПошта, MeestExpress.
+        </div>
+
+        <h2>🛒 Ваш кошик</h2>
+        <div style="color: #c0392b; font-weight: bold; font-size: 15px; margin-bottom: 10px;">Доставка оплачується окремо.</div>
+        <div id="cart-items-list"></div>
+        <div id="cart-controls"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
+        <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
+        <div id="discount-msg" style="color: #27ae60; font-weight: bold; margin-bottom: 10px; display: none;">🎉 Застосовано знижку 5% за перемогу в грі!</div>
+        
+        <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <label><span class="star-red">*</span> Ваше ім'я:</label>
+            <input type="text" id="client-name" class="cart-input" placeholder="Введіть ім'я">
+            <label><span class="star-red">*</span> Телефон:</label>
+            <input type="tel" id="client-phone" class="cart-input" value="+380" maxlength="13" oninput="if(!this.value.startsWith('+380')) this.value = '+380'; this.value = '+380' + this.value.substring(4).replace(/[^\d]/g, '');">
+            <label><span class="star-red">*</span> Служба доставки:</label>
+            <select id="shipping-method" class="cart-select" onchange="handleShippingChange()">
+                <option value="">Оберіть пошту...</option>
+                <option value="Nova Poshta">Нова Пошта</option>
+                <option value="Ukrposhta">УкрПошта</option>
+                <option value="Meest">Meest Express</option>
+            </select>
+            <div id="delivery-details" style="display:none;">
+                <label><span class="star-red">*</span> Місто:</label>
+                <input type="text" id="client-city" class="cart-input" placeholder="Введіть місто">
+                <label><span class="star-red">*</span> № Відділення / Адреса:</label>
+                <input type="text" id="client-address" class="cart-input" placeholder="Наприклад: Відділення №1">
+            </div>
+            <label><span class="star-red">*</span> Спосіб оплати:</label>
+            <select id="payment-method" class="cart-select">
+                <option value="Післяплата">Післяплата (на пошті)</option>
+                <option value="LiqPay">Онлайн-оплата (Visa/Mastercard/ApplePay)</option>
+            </select>
+        </div>
+        <div id="rate-limit-msg" style="color:red; font-size:12px; margin-bottom:10px; display:none;"></div>
+        <button class="btn-submit-order" id="submit-order-btn" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+    </div>
+</div>
+
+<div id="contactModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" style="max-width: 420px;">
+        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('contactModal')">&times;</span>
+        <h2>📞 Контакти продавця</h2>
+        <div style="text-align: left;">
+            <div class="contact-row"><span class="contact-label">Київстар:</span><span class="contact-number">+38 (097) 334-86-67 📞</span></div>
+            <div class="contact-row">
+                <span class="contact-label">Lifecell:</span><span class="contact-number">+38 (093) 218-12-63 📞</span>
+            </div>
+            <div class="contact-row" style="margin-top: 15px;">
+                <span class="contact-label">E-mail:</span><span class="contact-number"><a href="mailto:olegkarpov078@gmail.com">olegkarpov078@gmail.com</a></span>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #e67e22; color: #333; line-height: 1.4;">
+                <b style="color: #000;">Адреса нашого магазину:</b><br>
+                Україна, м. Миколаїв, ринок "Колос", 134й контейнер (біля магазину "Канцелярский мир").
+            </div>
+        </div>
+        <button class="btn-submit-order" style="margin-top:20px; width:100%; justify-content:center; background:#e67e22;" onclick="closeModal('contactModal')">Закрити</button>
+    </div>
+</div>
+
+<div id="successOrderModal" class="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal-content" style="max-width: 400px; padding: 40px 20px;">
+        <div style="font-size: 50px; color: #27ae60; margin-bottom: 20px;">✅</div>
+        <h2 style="color: #27ae60; margin-bottom: 15px;">Дякуємо!</h2>
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">Ваше замовлення прийнято.<br>Ми зв'яжемось з Вами у найближчий час.</p>
+        <button class="btn-submit-order" style="margin-top: 25px; width: 150px; display: inline-block; background: #e67e22;" onclick="closeModal('successOrderModal')">ОК</button>
+    </div>
+</div>
+
+<script>
+    // === ЛОГІКА КАРТИ (LEAFLET.JS) ===
+    document.addEventListener("DOMContentLoaded", function() {
+        // Координати центру Миколаївської області
+        var map = L.map('fishing-map').setView([47.4, 31.8], 9);
+
+        // Додаємо шар карти від OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+        // База даних місць
+        // Якщо захочете змінити фото - міняйте посилання у полі `img: "..."`
+        var fishingSpots = [
+            {
+                name: "с. Семенівка (Арбузинський р-н)",
+                lat: 47.9333,
+                lng: 31.1167,
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1544988484-912a5dbd4885?auto=format&fit=crop&q=80&w=400",
+                desc: "Одне з найкращих місць для лову трофейного товстолоба! Найкраще працює технопланктон «Мед» та «Полуниця»."
+            },
+            {
+                name: "с. Щербані (Вознесенський р-н)",
+                lat: 47.5320,
+                lng: 31.7510,
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1590050858882-62a26fa32d16?auto=format&fit=crop&q=80&w=400",
+                desc: "Відмінний ставок з хорошим під'їздом. Товстолоб віддає перевагу солодким ароматам. Рекомендуємо «Пряжене молоко»."
+            },
+            {
+                name: "р. Південний Буг (Нова Одеса)",
+                lat: 47.3050,
+                lng: 31.7850,
+                rating: 3,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Southern_Bug_in_Mykolaiv_Oblast.jpg/800px-Southern_Bug_in_Mykolaiv_Oblast.jpg",
+                desc: "Річкова ловля. Обов'язково використовуйте великі борильця на 140г («Оригінал» або «Мед»), щоб вони повільніше розмивалися."
+            },
+            {
+                name: "Софіївське водосховище",
+                lat: 47.6810,
+                lng: 32.3350,
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1447012547146-5ddf2fcf15e6?auto=format&fit=crop&q=80&w=400",
+                desc: "Чудове місце для тривалих сесій. Найкраще працює технопланктон «Пряжене молоко» та «Мед»."
+            },
+            {
+                name: "м. Миколаїв (р. Інгул)",
+                lat: 47.0160,
+                lng: 32.0300,
+                rating: 4,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Inhul_river_in_Mykolaiv.jpg/800px-Inhul_river_in_Mykolaiv.jpg",
+                desc: "Хороші результати прямо в місті. Риба перебірлива, беріть із собою «Полуницю» та «Пряжене молоко»."
+            },
+            {
+                name: "Олександрівське водосховище",
+                lat: 47.6975,
+                lng: 31.2658,
+                rating: 5,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Oleksandrivske_Reservoir.jpg/800px-Oleksandrivske_Reservoir.jpg",
+                desc: "Тут ловлять справжніх гігантів. Рекомендуємо використовувати борильця 110г-140г зі смаком «Полуниця»."
+            },
+            {
+                name: "с. Пелагеївка (р. Інгул)",
+                lat: 47.7167,
+                lng: 32.3167,
+                rating: 4,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Pelageivka.jpg/800px-Pelageivka.jpg",
+                desc: "Мальовниче місце біля монастиря. Товстолоб часто стоїть на руслах. Добре показує себе «Полуниця» та «Мед»."
+            },
+            {
+                name: "с. Баловне (р. Південний Буг)",
+                lat: 47.0850,
+                lng: 31.8840,
+                rating: 4,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Southern_Bug_near_Migiya.jpg/800px-Southern_Bug_near_Migiya.jpg",
+                desc: "Широка річка, буває сильна течія. Рекомендуємо важкий планктон «Оригінал» (140г) та надійні снасті."
+            },
+            {
+                name: "с. Кашперо-Миколаївка (ставки)",
+                lat: 47.3820,
+                lng: 32.1850,
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1550244795-0219665f80b5?auto=format&fit=crop&q=80&w=400",
+                desc: "Популярні водойми. Риба чудово реагує на солодкі та вершкові аромати, особливо «Пряжене молоко»."
+            },
+            {
+                name: "с. Зайчівське (р. Інгул)",
+                lat: 47.0340,
+                lng: 32.1020,
+                rating: 3,
+                img: "https://images.unsplash.com/photo-1605721665406-81cf803d2744?auto=format&fit=crop&q=80&w=400",
+                desc: "Зручно для швидких виїздів з Миколаєва. Товстолоб тут любить класику — «Мед» та «Оригінал»."
+            },
+            {
+                name: "с. Гур'ївка (р. Південний Буг)",
+                lat: 47.1670,
+                lng: 31.8520,
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1520625340632-159e66c6b2ba?auto=format&fit=crop&q=80&w=400",
+                desc: "Гарні глибини та рельєф дна. Часто трапляються трофейні екземпляри. Варто пробувати «Мед» та «Оригінал»."
+            },
+            {
+                name: "м. Вознесенськ (р. Південний Буг)",
+                lat: 47.5615,
+                lng: 31.3135,
+                rating: 4,
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Southern_Bug_River_in_Voznesensk.jpg/800px-Southern_Bug_River_in_Voznesensk.jpg",
+                desc: "Класична річкова ловля. Через течію планктон вимивається швидше, беріть найбільші бочонки «Оригінал»."
+            },
+            {
+                name: "с. Кір'яківка (ставки)",
+                lat: 47.2500,
+                lng: 31.7800,
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1516214104703-d25078101689?auto=format&fit=crop&q=80&w=400",
+                desc: "Спокійне місце з хорошим підходом до води. Місцевий товстолоб добре реагує на аромат «Полуниця»."
+            },
+            {
+                name: "Щасливське водосховище",
+                lat: 47.0940,
+                lng: 31.8150,
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1463131718872-47209cb6f4df?auto=format&fit=crop&q=80&w=400",
+                desc: "Велика акваторія, відмінно підходить для полювання на трофеїв зі смаком «Мед» та «Пряжене молоко»."
+            },
+            {
+                name: "с. Христофорівка (р. Інгул)",
+                lat: 47.2340,
+                lng: 32.2210,
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1544988484-912a5dbd4885?auto=format&fit=crop&q=80&w=400",
+                desc: "Цікавий рельєф дна біля очерету. Для приваблення риби сюди радимо брати «Оригінал» (макуху)."
+            }
+        ];
+
+        var customIcon = L.icon({
+            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        fishingSpots.forEach(function(spot) {
+            var starsHtml = '⭐'.repeat(spot.rating) + '✰'.repeat(5 - spot.rating);
+            
+            // HTML для спливаючого вікна з фотографією
+            var popupContent = `
+                <div class="leaflet-popup-content">
+                    <h3>${spot.name}</h3>
+                    <img src="${spot.img}" class="spot-image" alt="${spot.name}">
+                    <div class="spot-rating">${starsHtml}</div>
+                    <p class="spot-desc">${spot.desc}</p>
+                </div>
+            `;
+
+            L.marker([spot.lat, spot.lng], {icon: customIcon})
+             .addTo(map)
+             .bindPopup(popupContent);
+        });
+    });
+
+    // === ЛОГІКА КОШИКА ТА МОДАЛОК (КЛОН З ІНШИХ СТОРІНОК) ===
+    let cart = JSON.parse(localStorage.getItem('fishingCart')) || [];
+
+    function showToast(msg, color = "#27ae60") {
+        const oldToast = document.querySelector('.toast-msg');
+        if (oldToast) oldToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.style.borderColor = color;
+        toast.style.color = color;
+        toast.innerHTML = `<span>${msg}</span>`;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3000);
+    }
+
+    function checkRateLimit() {
+        const now = Date.now();
+        const tenMinutes = 10 * 60 * 1000;
+        let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+        history = history.filter(timestamp => (now - timestamp) < tenMinutes);
+        localStorage.setItem('orderHistory', JSON.stringify(history));
+        const submitBtn = document.getElementById('submit-order-btn');
+        const msg = document.getElementById('rate-limit-msg');
+        if (history.length >= 2) {
+            const timeLeft = Math.ceil((tenMinutes - (now - history[0])) / 60000);
+            submitBtn.disabled = true;
+            msg.innerText = `Ви перевищили ліміт замовлень. Спробуйте через ${timeLeft} хв.`;
+            msg.style.display = 'block';
+            return false;
+        } else {
+            submitBtn.disabled = false;
+            msg.style.display = 'none';
+            return true;
+        }
+    }
+
+    function recordOrder() {
+        let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+        history.push(Date.now());
+        localStorage.setItem('orderHistory', JSON.stringify(history));
+    }
+
+    function handleShippingChange() {
+        const method = document.getElementById('shipping-method').value;
+        document.getElementById('delivery-details').style.display = method ? 'block' : 'none';
+    }
+
+    function updateCartUI() { 
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+        }
+        localStorage.setItem('fishingCart', JSON.stringify(cart)); 
+    }
+
+    function changeQty(name, delta) {
+        const item = cart.find(i => i.name === name);
+        if (item) {
+            item.qty += delta;
+            if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+            updateCartUI(); openCart();
+        }
+    }
+
+    function removeFromCart(name) { 
+        cart = cart.filter(item => item.name !== name); 
+        updateCartUI(); 
+        openCart();
+        showToast("Товар видалено", "#e67e22");
+    }
+    
+    function clearCart() { 
+        if (cart.length === 0) return;
+        cart = [];
+        updateCartUI(); 
+        openCart();
+        closeModal('cartModal');
+        showToast("Кошик очищено", "#c0392b");
+    }
+
+    function openCart() {
+        const list = document.getElementById('cart-items-list');
+        const ctrl = document.getElementById('cart-controls');
+        let total = 0;
+        if (cart.length === 0) { list.innerHTML = '<p style="color:#666; padding:20px;">Кошик порожній</p>'; ctrl.style.display = 'none'; }
+        else {
+            list.innerHTML = '';
+            ctrl.style.display = 'block';
+            cart.forEach(item => { 
+                total += item.price * item.qty; 
+                list.innerHTML += `<div class="cart-item">
+                    <div style="flex:1; text-align:left; color:#333;"><b>${item.name}</b><br><span style="color:#666;">${item.price} грн/шт</span></div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', -1)">-</button>
+                        <span style="color:#000; font-weight:bold; min-width:20px; text-align:center;">${item.qty}</span>
+                        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', 1)">+</button>
+                    </div>
+                    <b style="color:#000; min-width:60px; text-align:right;">${item.price * item.qty} грн</b>
+                    <span class="remove-item" onclick="removeFromCart('${item.name.replace(/'/g, "\\'")}')">✖</span>
+                </div>`; 
+            });
+        }
+        
+        let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+        let totalDisplay = document.getElementById('cart-total-sum');
+        let discountMsg = document.getElementById('discount-msg');
+
+        if (hasDiscount && total > 0) {
+            let discountedTotal = Math.round(total * 0.95);
+            totalDisplay.innerHTML = `<span style="text-decoration: line-through; color: #7f8c8d; font-size: 14px;">${total}</span> ${discountedTotal}`;
+            if(discountMsg) discountMsg.style.display = 'block';
+        } else {
+            totalDisplay.innerHTML = total;
+            if(discountMsg) discountMsg.style.display = 'none';
+        }
+
+        openModal('cartModal');
+    }
+
+    function sendOrderEmail() {
+        if (!checkRateLimit()) return;
+        const name = document.getElementById('client-name').value.trim();
+        const phone = document.getElementById('client-phone').value.trim();
+        const shipping = document.getElementById('shipping-method').value;
+        const city = document.getElementById('client-city').value.trim();
+        const address = document.getElementById('client-address').value.trim();
+        const payment = document.getElementById('payment-method').value;
+        
+        let calcTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+        let hasDiscount = localStorage.getItem('sk_discount_won') === 'true';
+        let finalTotal = hasDiscount ? Math.round(calcTotal * 0.95) : calcTotal;
+
+        if (cart.length === 0) { showToast("Кошик порожній!", "#c0392b"); return; }
+        if (!name || phone.length < 13 || !shipping || !city || !address) {
+            showToast("Заповніть усі обов'язкові поля!", "#e67e22");
+            return;
+        }
+        if (calcTotal < 400) {
+            showToast("Мінімальне замовлення 400 грн!", "#c0392b");
+            return;
+        }
+
+        let details = cart.map(i => `${i.name} (${i.qty} шт.)`).join(', ');
+        
+        if (hasDiscount) {
+            details += `\n\n-------------------------\n🎯 УВАГА: Клієнт чесно виграв у міні-гру!\nСума без знижки: ${calcTotal} грн.\nСума до оплати зі знижкою 5%: ${finalTotal} грн.\n-------------------------`;
+        }
+
+        const templateParams = {
+            from_name: name,
+            user_phone: phone,
+            user_address: address,
+            shipping_method: shipping,
+            payment_method: payment,
+            order_details: details,
+            total_sum: finalTotal
+        };
+
+        emailjs.send("service_2xxpqzw", "template_dkcry58", templateParams)
+        .then(() => { 
+            recordOrder();
+            if (hasDiscount) localStorage.removeItem('sk_discount_won');
+            cart = []; updateCartUI(); closeModal('cartModal'); 
+            openModal('successOrderModal');
+        }).catch(() => showToast("Помилка відправки!", "#c0392b"));
+    }
+
+    window.onload = updateCartUI;
+
+    function openModal(id) { 
+        document.getElementById(id).style.display = 'flex';
+        if(id === 'cartModal') checkRateLimit();
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function handleBgClick(e) { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }
+
+</script>
+</body>
+</html>
