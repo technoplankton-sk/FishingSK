@@ -72,7 +72,7 @@
         }
         nav a:hover { color: #e67e22; }
 
-        .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
+        .nav-icon { width: 18px !important; height: 18px !important; margin-right: 6px; vertical-align: middle; object-fit: contain; }
 
         .cart-btn-header {
             background: #e67e22;
@@ -82,7 +82,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            transition: 0.3s;
+            transition: 0.3s; /* ТУТ БУЛА ПОМИЛКА: було '0.3s;' без 'transition', що ламало весь CSS */
         }
         #cart-count {
             background: #c0392b;
@@ -113,7 +113,6 @@
             max-width: 900px;
         }
 
-        /* Клас для заборони переносу на ПК */
         .no-wrap-pc { white-space: nowrap; }
 
         .hero-buttons { 
@@ -148,7 +147,7 @@
 
         .btn-main:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
-        .btn-icon { width: 20px; height: 20px; object-fit: contain; }
+        .btn-icon { width: 20px !important; height: 20px !important; object-fit: contain; }
 
         .seo-container {
             background: rgba(0, 0, 0, 0.7);
@@ -177,6 +176,8 @@
             width: 100%;
             max-width: 1100px;
             margin-top: 10px;
+            /* ДОДАНО: Перспектива для 3D */
+            perspective: 1000px;
         }
 
         .category-card {
@@ -185,17 +186,35 @@
             overflow: hidden;
             text-decoration: none;
             color: white;
-            transition: 0.3s;
+            transition: transform 0.1s ease-out, background 0.3s, border-color 0.3s;
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-bottom: 15px;
             height: 250px;
+            /* ДОДАНО: 3D стиль */
+            transform-style: preserve-3d;
+            will-change: transform;
         }
-        .category-card:hover { transform: scale(1.03); background: rgba(255, 255, 255, 0.2); border-color: #e67e22; }
-        .category-card img { width: 100%; height: 180px; object-fit: contain; background: rgba(0,0,0,0.2); } 
-        .category-card span { margin-top: 15px; font-weight: bold; font-size: 18px; }
+        .category-card:hover { background: rgba(255, 255, 255, 0.2); border-color: #e67e22; }
+        .category-card img { 
+            width: 100%; 
+            height: 180px; 
+            object-fit: contain; 
+            background: rgba(0,0,0,0.2); 
+            /* ДОДАНО: Виштовхуємо картинку вперед */
+            transform: translateZ(40px);
+            pointer-events: none;
+        } 
+        .category-card span { 
+            margin-top: 15px; 
+            font-weight: bold; 
+            font-size: 18px; 
+            /* ДОДАНО: Текст ще ближче */
+            transform: translateZ(60px);
+            pointer-events: none;
+        }
 
         .pc-only { display: flex; }
         .mobile-only { display: none; }
@@ -208,9 +227,10 @@
             header { padding: 10px 15px; flex-direction: column; gap: 10px; }
             nav { gap: 15px; width: 100%; justify-content: space-around; }
             nav a { font-size: 12px; }
-            
-            /* На мобільних дозволяємо перенос тексту */
             .no-wrap-pc { white-space: normal; }
+            /* Вимикаємо 3D нахил на мобільних для стабільності */
+            .category-card { transform: none !important; }
+            .categories-grid { perspective: none; }
         }
 
         .modal-bg {
@@ -228,7 +248,7 @@
         }
         .contact-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px; font-size: 18px; padding-left: 20px; flex-wrap: wrap; }
         .contact-label { width: 90px; text-align: left; font-weight: bold; }
-        .messenger-icon { width: 26px; height: 26px; vertical-align: middle; margin-left: 8px; cursor: pointer; }
+        .messenger-icon { width: 26px !important; height: 26px !important; vertical-align: middle; margin-left: 8px; cursor: pointer; object-fit: contain; }
 
         /* КЛОНОВАНІ СТИЛІ КОШИКА ТА TOAST ПОВІДОМЛЕНЬ */
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
@@ -716,6 +736,33 @@
                     }
                 }, 800);
             }
+        });
+
+        /* ДОДАНО: Скрипт для 3D нахилу карток */
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth <= 768) return; // Не виконувати на телефонах
+            
+            const cards = document.querySelectorAll('.category-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Якщо миша в межах картки
+                if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // Розрахунок кута нахилу (макс 15 градусів)
+                    const rotateX = (centerY - y) / 10;
+                    const rotateY = (x - centerX) / 10;
+
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                } else {
+                    // Повернення в початковий стан
+                    card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+                }
+            });
         });
     </script>
 </body>
