@@ -228,9 +228,9 @@
             nav { gap: 15px; width: 100%; justify-content: space-around; }
             nav a { font-size: 12px; }
             .no-wrap-pc { white-space: normal; }
-            /* Вимикаємо 3D нахил на мобільних для стабільності */
-            .category-card { transform: none !important; }
-            .categories-grid { perspective: none; }
+            /* 3D нахил тепер працює і на мобільних */
+            /* .category-card { transform: none !important; } */
+            /* .categories-grid { perspective: none; } */
         }
 
         .modal-bg {
@@ -738,17 +738,24 @@
             }
         });
 
-        /* ДОДАНО: Скрипт для 3D нахилу карток */
-        document.addEventListener('mousemove', (e) => {
-            if (window.innerWidth <= 768) return; // Не виконувати на телефонах
-            
+        /* ДОДАНО: Скрипт для 3D нахилу карток (з підтримкою сенсорних екранів) */
+        function handleTilt(e) {
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+
+            // Підтримка Touch подій на телефонах
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+
             const cards = document.querySelectorAll('.category-card');
             cards.forEach(card => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
 
-                // Якщо миша в межах картки
+                // Якщо миша/палець в межах картки
                 if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
@@ -763,7 +770,11 @@
                     card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
                 }
             });
-        });
+        }
+
+        document.addEventListener('mousemove', handleTilt);
+        document.addEventListener('touchmove', handleTilt, { passive: true });
+        document.addEventListener('touchstart', handleTilt, { passive: true });
     </script>
 </body>
 </html>
