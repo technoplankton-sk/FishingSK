@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org">
-  <!-- Головна сторінка -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://technoplankton-sk.github.io/FishingSK/</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://technoplankton-sk.com.ua/</loc>
+    <lastmod>2026-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- Товари -->
   <url>
-    <loc>https://technoplankton-sk.github.io/FishingSK/products.html</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://technoplankton-sk.com.ua/products.html</loc>
+    <lastmod>2026-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Галерея -->
   <url>
-    <loc>https://technoplankton-sk.github.io/FishingSK/galery.html</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://technoplankton-sk.com.ua/galery.html</loc>
+    <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Відгуки -->
   <url>
-    <loc>https://technoplankton-sk.github.io/FishingSK/vidguk.html</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://technoplankton-sk.com.ua/proVirobnika.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://technoplankton-sk.com.ua/map.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://technoplankton-sk.com.ua/game.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
