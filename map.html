@@ -5,8 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
     
-    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Оптимізовані іконки -->
+    <link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Канонічна сторінка -->
+    <link rel="canonical" href="https://technoplankton-sk.com.ua/map.html">
+
     <title>Карта водойм Миколаївщини - Технопланктон SK</title>
+    <meta name="description" content="Інтерактивна карта найкращих рибальських місць та водойм Миколаївської області для лову товстолоба на технопланктон SK від Олега Карпова.">
+    <meta name="keywords" content="карта водойм Миколаїв, де ловити товстолоба, риболовля Миколаївська область, ставки Миколаїв, технопланктон SK карта">
+
+    <!-- Meta tags / Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Карта водойм Миколаївщини - Технопланктон SK">
+    <meta property="og:description" content="Інтерактивна карта рибальських місць для лову товстолоба з рекомендаціями щодо вибору технопланктону.">
+    <meta property="og:image" content="https://technoplankton-sk.com.ua/logo.png">
+    <meta property="og:url" content="https://technoplankton-sk.com.ua/map.html">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMS86KLZ23"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZMS86KLZ23');
+    </script>
     
     <!-- Підключення стилів та скриптів для карти Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -158,10 +183,10 @@
             font-size: 16px;
         }
         .spot-image {
-            display: block; /* ВИПРАВЛЕНО: для центрування */
-            margin: 0 auto 10px auto; /* ВИПРАВЛЕНО: автоматичні відступи з боків */
+            display: block;
+            margin: 0 auto 10px auto;
             width: 100%;
-            max-width: 210px; /* Додано для кращого вигляду всередині вікна */
+            max-width: 210px;
             height: 140px;
             object-fit: cover;
             border-radius: 8px;
@@ -341,7 +366,6 @@
         }).addTo(map);
 
         // БАЗА ДАНИХ МІСЦЬ З ЛОКАЛЬНИМИ ФОТО (Images/map/)
-        // Шляхи та назви файлів приведені у відповідність до вашої папки E:\My-Site\Images\map
         var fishingSpots = [
             {
                 name: "с. Семенівка (Арбузинський р-н)",
@@ -421,7 +445,7 @@
                 lng: 32.1020,
                 rating: 3,
                 img: "Images/map/zaichivske.jpg",
-                desc: "Зручно для швидких виїздів з Миколаєва. Товстолоб тут любить класику — «Мед» та «Полуниця»."
+                desc: "Зручно для швидких виїздів з Миколаєва. Товстолоб тут любить классику — «Мед» та «Полуниця»."
             },
             {
                 name: "с. Гур'ївка (р. Південний Буг)",
