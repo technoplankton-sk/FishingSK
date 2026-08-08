@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://technoplankton-sk.github.io
+Sitemap: https://technoplankton-sk.com.ua/
