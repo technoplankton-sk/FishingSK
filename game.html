@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="logo.png">
-    <title>Міні-гра: Спіймай товстолоба та отримай знижку 5% - Технопланктон SK</title>
     
+    <!-- Оптимізовані іконки -->
+    <link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Канонічна сторінка -->
+    <link rel="canonical" href="https://technoplankton-sk.com.ua/game.html">
+
+    <title>Міні-гра: Спіймай товстолоба та отримай знижку 5% - Технопланктон SK</title>
+    <meta name="description" content="Зіграйте в міні-гру 'Спіймай товстолоба' та отримайте гарантовану знижку 5% на технопланктон SK від Олега Карпова!">
+    <meta name="keywords" content="гра технопланктон, спіймай товстолоба, знижка технопланктон SK, прикормка товстолоб Миколаїв">
+
+    <!-- Meta tags / Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Міні-гра: Спіймай товстолоба - Технопланктон SK">
+    <meta property="og:description" content="Випробуйте свою реакцію, спіймайте товстолоба та отримайте 5% знижки на замовлення!">
+    <meta property="og:image" content="https://technoplankton-sk.com.ua/logo.png">
+    <meta property="og:url" content="https://technoplankton-sk.com.ua/game.html">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMS86KLZ23"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZMS86KLZ23');
+    </script>
+
     <style>
         /* БАЗОВІ СТИЛІ З ВАШОГО САЙТУ */
         body { 
@@ -147,7 +173,6 @@
             left: 50%;
             top: 30%;
             transform: translateX(-50%);
-            /* ЗБІЛЬШЕНО РОЗМІР ПОПЛАВЦЯ */
             width: 50px;
             height: 180px;
             background: url('Images/poplGame.png') no-repeat center;
@@ -359,7 +384,6 @@
         statusText.innerText = "КЛЮЄ! ПІДСІКАЙ!";
         statusText.style.color = "#e74c3c";
 
-        // Трохи збільшено час на реакцію для комфортної гри (400-600мс)
         const biteDuration = Math.floor(Math.random() * 200) + 400;
 
         biteTimer = setTimeout(() => {
@@ -417,7 +441,6 @@
 
     function updateAttemptsUI() {
         let hearts = '';
-        // Відображаємо актуальну кількість спроб
         for(let i=0; i<attempts; i++) hearts += '❤️ ';
         for(let i=attempts; i<3; i++) hearts += '🖤 ';
         attemptsText.innerHTML = hearts;
@@ -428,7 +451,6 @@
         clearTimeout(nextBiteTimeout);
         clearTimeout(biteTimer);
         floatItem.style.display = 'none';
-        // Перевірка, щоб модалка програшу з'являлася тільки коли спроби ДІЙСНО 0
         if (attempts <= 0) {
             document.getElementById('loseModal').style.display = 'flex';
         }
