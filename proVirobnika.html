@@ -3,14 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="logo.png">
-    <title>Про виробника - Технопланктон "Октябрьский" (SK)</title>
     
-    <!-- Meta tags from main page -->
+    <!-- Оптимізовані іконки -->
+    <link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    
+    <!-- Канонічна сторінка -->
+    <link rel="canonical" href="https://technoplankton-sk.com.ua/proVirobnika.html">
+
+    <title>Про виробника - Технопланктон "Октябрьский" (SK)</title>
+    <meta name="description" content="Історія створення ТМ «SK». Олег Карпов — іхтіолог з понад 35-річним стажем. Дізнайтеся більше про виробництво авторського технопланктону та принади для риболовлі.">
+    <meta name="keywords" content="Олег Карпов, технопланктон SK, історія виробника, технопланктон Октябрьский, прикормка на товстолоба, технопланктон Миколаїв">
+
+    <!-- Meta tags / Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Про виробника - Технопланктон SK">
     <meta property="og:description" content="Історія створення ТМ «SK». Олег Карпов - іхтіолог з 35-річним стажем.">
-    <meta property="og:image" content="https://technoplankton-sk.github.io/FishingSK/logo.png">
+    <meta property="og:image" content="https://technoplankton-sk.com.ua/logo.png">
+    <meta property="og:url" content="https://technoplankton-sk.com.ua/proVirobnika.html">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMS86KLZ23"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZMS86KLZ23');
+    </script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -85,7 +105,7 @@
             nav a { font-size: 12px; }
         }
 
-        /* --- СТИЛІ МОДАЛЬНИХ ВІКОН ТА КОШИКА (КЛОН) --- */
+        /* --- СТИЛІ МОДАЛЬНИХ ВІКОН ТА КОШИКА --- */
         .modal-bg {
             display: none;
             position: fixed;
@@ -303,7 +323,7 @@
         </section>
     </div>
 
-    <!-- МОДАЛЬНІ ВІКНА ТА КОШИКА (КЛОН) -->
+    <!-- МОДАЛЬНІ ВІКНА ТА КОШИКА -->
     <div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('cartModal')">&times;</span>
