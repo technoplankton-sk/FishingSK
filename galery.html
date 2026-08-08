@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="logo.png">
-    <title>Галерея - Технопланктон SK</title>
     
+    <!-- Оптимізовані іконки -->
+    <link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    
+    <!-- Канонічна сторінка -->
+    <link rel="canonical" href="https://technoplankton-sk.com.ua/galery.html">
+
+    <title>Відеогалерея - Технопланктон SK від Олега Карпова</title>
+    <meta name="description" content="Відеогалерея технопланктону SK від Олега Карпова. Дивіться відео з тестами прикормки, результатами риболовлі на товстолоба та оглядами товарів.">
+    <meta name="keywords" content="технопланктон відео, технопланктон SK галерея, ловля товстолоба відео, Олег Карпов відео, технопланктон Николаев">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Відеогалерея - Технопланктон SK від Олега Карпова">
+    <meta property="og:description" content="Відео з тестами технопланктону, результатами риболовлі та оглядами снастей.">
+    <meta property="og:image" content="https://technoplankton-sk.com.ua/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://technoplankton-sk.com.ua/galery.html">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMS86KLZ23"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -52,7 +69,7 @@
         
         .close-btn { position: absolute; top: 15px; right: 20px; color: white; font-size: 40px; cursor: pointer; z-index: 2001; text-shadow: 0 0 10px rgba(0,0,0,1); }
 
-        /* МОДАЛКА КОНТАКТІВ ТА КОШИКА (КЛОН З ІНШИХ СТОРІНОК) */
+        /* МОДАЛКА КОНТАКТІВ ТА КОШИКА */
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
         .contact-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 10px; font-size: 18px; padding-left: 20px; flex-wrap: wrap; }
         .contact-label { width: 90px; text-align: left; font-weight: bold; }
@@ -393,10 +410,8 @@
     ids.forEach(id => {
         const card = document.createElement('div');
         card.className = 'video-card';
-        // Додано referrerpolicy="no-referrer" для обходу блокування зображень TikTok
         card.innerHTML = `<img id="img-${id}" src="" style="display:none;" alt="" referrerpolicy="no-referrer"><div class="play-btn">▶</div>`;
         
-        // Отримання прев'ю картинки через офіційний oEmbed TikTok
         fetch(`https://www.tiktok.com/oembed?url=https://www.tiktok.com/video/${id}`)
             .then(res => res.json())
             .then(data => {
