@@ -78,7 +78,7 @@
             display: flex; 
             align-items: center; 
         }
-        nav a:hover { color: #e67e22; }
+        nav a:hover { color: #e67e22; } 
         
         /* Стиль для іконок в меню */
         .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
@@ -435,7 +435,7 @@
       "brand": { "@type": "Brand", "name": "SK" },
       "offers": {
         "@type": "Offer",
-        "price": "120",
+        "price": "140",
         "priceCurrency": "UAH",
         "priceValidUntil": "2027-12-31",
         "availability": "https://schema.org/InStock",
@@ -464,7 +464,7 @@
       "brand": { "@type": "Brand", "name": "SK" },
       "offers": {
         "@type": "Offer",
-        "price": "160",
+        "price": "200",
         "priceCurrency": "UAH",
         "priceValidUntil": "2027-12-31",
         "availability": "https://schema.org/InStock",
@@ -492,7 +492,7 @@
       "brand": { "@type": "Brand", "name": "SK" },
       "offers": {
         "@type": "Offer",
-        "price": "260",
+        "price": "280",
         "priceCurrency": "UAH",
         "priceValidUntil": "2027-12-31",
         "availability": "https://schema.org/InStock",
@@ -1125,9 +1125,9 @@
         const addressText = 'Україна, м. Миколаїв, ринок "Колос", 134й контейнер (біля магазину "Канцелярский мир").';
 
         const configs = [
-            { id: 'container80', folder: '80g', w: '80г (флуоро)', p: 130, o: 65, q: 50, t: 3 },
-            { id: 'container110', folder: '110g', w: '110г (флуоро)', p: 180, o: 90, q: 50, t: 4 },
-            { id: 'container140', folder: '140g', w: '140г (флуоро)', p: 260, o: 130, q: 50, t: 5 }
+            { id: 'container80', folder: '80g', w: '80г (флуоро)', p: 140, o: 84, q: 50, t: 3 },
+            { id: 'container110', folder: '110g', w: '110г (флуоро)', p: 200, o: 120, q: 50, t: 4 },
+            { id: 'container140', folder: '140g', w: '140г (флуоро)', p: 280, o: 168, q: 50, t: 5 }
         ];
 
         configs.forEach(c => {
@@ -1181,8 +1181,8 @@
         const s2 = banner + `Волосінь рибальська флуоресцентна, дуже міцна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (Ø=1.5мм)', 500, null, 0, s2);
         
-        const s3 = banner + `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
-        document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм)', 100, null, 0, s3);
+        const s3 = banner + `Волосінь флуоро рибальська високої міцності\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.2мм\nДовжина в бобіні: 250м\nЦіна - 900грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
+        document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь флуоро 250м (Ø=1.2мм)', 900, null, 0, s3);
 
         updateCartUI();
         setInterval(checkRateLimit, 30000);
