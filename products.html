@@ -631,7 +631,7 @@
       "brand": { "@type": "Brand", "name": "SK" },
       "offers": {
         "@type": "Offer",
-        "price": "600",
+        "price": "1000",
         "priceCurrency": "UAH",
         "priceValidUntil": "2027-12-31",
         "availability": "https://schema.org/InStock",
@@ -901,7 +901,8 @@
     const flavors = [
         {id:'pryajenka', name:'Пряжене молоко'}, {id:'polunitsya', name:'Полуниця'},
         {id:'grusha', name:'Кисла груша'}, {id:'kuk', name:'Кук'},
-        {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'}
+        {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'},
+        {id:'orig', name:'Оригінал'}
     ];
 
     function checkRateLimit() {
@@ -1219,10 +1220,13 @@
         document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplav.jpg', 'Поплавець на товстолоба SK XXXL (5шт/уп.)', 500, 200, null, p1);
         
         const p2 = banner + `Поплавець на товстолоба (Розмір XXXL) зі світлячком (акумулятор заряджається від USB). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опорі в воді він краще пробиває губу товстолоба та запобігає сходу риби. В 1й упаковці 5шт. Матеріал: Поліпропіленоуретан високої щільності. Виробник: Олег Карпов( виробник технопланктона "Октябрьский") м. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}${buyCall}`;
-        document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL (зі світлячком) (5шт/уп.)', 600, 400, null, p2);
+        document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL (зі світлячком) (5шт/уп.)', 1000, null, null, p2);
+
+        const p3 = banner + `Поплавець на товстолоба (Розмір XXXL) зі світлячком (акумулятор заряджається від USB). Найкраща якість в Україні. Флюоресцентний( світиться від сонячного проміння вдень, а в ночі - від яскравого місячного сяйва, а також від променя ліхтаря). Витримує груз вагою до 300гр. Діаметр 80мм. Завдяки великому розміру та сильному опорі в воді він краще пробиває губу товстолоба та запобігає сходу риби. В 1й упаковці 1шт. Матеріал: Поліпропіленоуретан високої щільності. Виробник: Олег Карпов( виробник технопланктона "Октябрьский") м. Миколаїв, тел.: (097)3348667, (093)2181263${emailInfo}${buyCall}`;
+        document.getElementById('containerPoplavki').innerHTML += createCard('Images/poplavki/poplavSV.jpg', 'Поплавець на товстолоба SK XXXL (зі світлячком) (1шт/уп.)', 200, null, null, p3);
 
         const acc1 = banner + `Світлячки для нічної рибалки (універсальні: для лову мирної та хижої риби). Використовується для зимової риболовлі на жерлиці, а також у весняний та літній період.\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}${buyCall}`;
-        document.getElementById('containerAccessories').innerHTML += createCard('Images/accessories/svetlyachok2.jpg', 'Світлячки для нічної риболовлі (універсальні)', 80, null, null, acc1);
+        document.getElementById('containerAccessories').innerHTML += createCard('Images/accessories/svetlyachok2.jpg', 'Світлячки для нічної риболовлі (універсальні)', 100, null, null, acc1);
 
         const acc2 = banner + `Зарядное устройство USB для рыболовных аккумуляторов:\nСовместимость: для АКБ типа LIR425 (светящиеся поплавки, LED-светлячки).\nУдобство: зарядка от повербанка, ноутбука или в авто.\nИндикация: красный свет — идет заряд, синий/зеленый — готово.\nЭкономия: Забудьте о севших батарейках на ночной рыбалке! 🎣\nКомпактная USB-зарядка для поплавков-светлячков. Заряжается за пару часов от любого порта, работает всю ночь. Экономно, экологично и всегда под рукой. В комплекте идут 2 аккумулятора!\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}${buyCall}`;
         document.getElementById('containerAccessories').innerHTML += createCard('Images/accessories/3.jpg', 'USB-зарядка (+2 акумулятора) для поплавців і світлячків (LIR425)', 300, null, null, acc2);
@@ -1233,8 +1237,8 @@
         const s2 = banner + `Волосінь рибальська флуоресцентна, дуже міцна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (Ø=1.5мм)', 500, null, null, s2);
         
-        const s3 = banner + `Волосінь флуоро рибальська високої міцності\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.2мм\nДовжина в бобіні: 250м\nЦіна - 900грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
-        document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos3.jpg', 'Волосінь флуоро 250м (Ø=1.2мм)', 900, null, null, s3);
+        const s3 = banner + `Волосінь флуоро рибальська високої міцності\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.2мм\nДовжина в бобіні: 250м\nЦіна - 1000грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
+        document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos3.jpg', 'Волосінь флуоро 250м (Ø=1.2мм)', 1000, null, null, s3);
 
         updateCartUI();
         setInterval(checkRateLimit, 30000);
