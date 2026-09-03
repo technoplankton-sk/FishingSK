@@ -362,6 +362,25 @@
         .refund-content ol { padding-left: 20px; margin: 0; }
         .refund-content li { margin-bottom: 8px; }
 
+        /* Стилі для подвалу (футера) */
+        footer {
+            background: #000000;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: #e67e22;
+            text-decoration: underline;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        footer a:hover {
+            color: #ffffff;
+        }
+
         /* АДАПТАЦІЯ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ */
         @media (max-width: 768px) {
             header { padding: 10px 15px; height: auto; flex-direction: column; gap: 10px; position: sticky; top: 0; z-index: 1001; }
@@ -654,7 +673,7 @@
       "@type": "Product",
       "name": "Волосінь рибальська 1000м",
       "image": "https://technoplankton-sk.com.ua/Images/snasti/volos2.jpg",
-      "description": "Міцна ліска з флуорокарбоновим покриттям.",
+      "description": "Мічна ліска з флуорокарбоновим покриттям.",
       "brand": { "@type": "Brand", "name": "SK" },
       "offers": {
         "@type": "Offer",
@@ -789,6 +808,13 @@
         <div class="products-grid" id="containerSnasti"></div>
     </main>
 </div>
+
+<footer>
+    <p>
+        🚚 Доставка по всій Україні: 
+        <a href="technoplankton-odessa.html">Купити технопланктон в Одесі та Одеській області</a>
+    </p>
+</footer>
 
 <div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -1230,7 +1256,7 @@
         const s1 = banner + `Волосінь рибальська високої міцності\nз флуорокарбоновим покриттям.\nНе має пам'яті.\nДовжина: 1000м\nДіаметр Ø: від 0,30 мм до 0,50 мм\n(Розривне навантаження для 0.30мм- 10кг, для 0.40мм- 19.2кг, для 0.5мм- 23,8кг)\nМатеріал із Японії.\nЦіна: 500 грн\nтел.:+38(097)3348667, +38(093)2181263 - Олег Карпов${emailInfo}${buyCall}`;
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos1.jpg', 'Волосінь рибальська високої міцності (1000м)', 500, null, null, s1);
         
-        const s2 = banner + `Волосінь рибальська флуоресцентна, дуже міцна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
+        const s2 = banner + `Волосінь рибальська флуоресцентна, дуже мічна\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.5мм\nДовжина в бобіні: 200м\nЦена - 500грн \nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
         document.getElementById('containerSnasti').innerHTML += createCard('Images/snasti/volos2.jpg', 'Волосінь рибальська 200м (Ø=1.5мм)', 500, null, null, s2);
         
         const s3 = banner + `Волосінь флуоро рибальська високої міцності\n(Світиться вночі від променя ліхтаря та сяйва місяця)\nØ=1.2мм\nДовжина в бобіні: 250м\nЦіна - 1000грн\nтел.:+38(097)3348667, +38(093)2181263${emailInfo}${buyCall}`;
