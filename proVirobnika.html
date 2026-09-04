@@ -254,6 +254,28 @@
             left: 0;
             font-weight: bold;
         }
+
+        /* Стилі для подвалу (футера) */
+        footer {
+            background: #000000;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+        footer p {
+            margin: 0;
+            color: white;
+        }
+        footer a {
+            color: #e67e22;
+            text-decoration: underline;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        footer a:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -322,6 +344,13 @@
             </div>
         </section>
     </div>
+
+    <footer>
+        <p>
+            🚚 Доставка по всій Україні: 
+            <a href="technoplankton-odessa.html">Купити технопланктон в Одесі та Одеській області</a>
+        </p>
+    </footer>
 
     <!-- МОДАЛЬНІ ВІКНА ТА КОШИКА -->
     <div id="cartModal" class="modal-bg" onclick="handleBgClick(event)">
