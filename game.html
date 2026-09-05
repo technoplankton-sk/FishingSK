@@ -234,6 +234,29 @@
             width: 100%; max-width: 450px; text-align: center; color: #333; 
         }
 
+        /* Стилі для подвалу (футера) */
+        footer {
+            background: #000000;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        footer p {
+            margin: 0;
+            color: white;
+        }
+        footer a {
+            color: #e67e22;
+            text-decoration: underline;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        footer a:hover {
+            color: #ffffff;
+        }
+
         @media (max-width: 768px) {
             header { flex-direction: column; padding: 10px; }
             nav { flex-wrap: wrap; justify-content: center; }
@@ -279,6 +302,13 @@
         <button id="start-btn" class="btn-buy" style="margin-top: 20px; width: 100%;" onclick="startGame()">▶ РОЗПОЧАТИ РИБОЛОВЛЮ</button>
     </div>
 </div>
+
+<footer>
+    <p>
+        🚚 Доставка по всій Україні: 
+        <a href="technoplankton-odessa.html">Купити технопланктон в Одесі та Одеській області</a>
+    </p>
+</footer>
 
 <div id="winModal" class="modal-bg">
     <div class="modal-content">
